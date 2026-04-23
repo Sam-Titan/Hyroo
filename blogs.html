@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Hub – Hyroo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #064e3b;
+      --accent: #10b981;
+      --accent-light: #d1fae5;
+      --accent-pale: #f0fdf4;
+      --white: #ffffff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-900: #0f172a;
+      --font-body: 'Outfit', sans-serif;
+      --font-display: 'DM Serif Display', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--slate-900); background: var(--white); overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.15; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 2rem; height: 76px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: var(--font-display); font-size: 1.8rem; color: var(--primary); cursor: pointer; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--slate-600); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--primary); color: #fff;
+      padding: 0.6rem 1.4rem; border-radius: 999px;
+      font-size: 0.85rem; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #043d2f; transform: translateY(-1px); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; color: var(--slate-600); }
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: #fff; padding: 1rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--slate-100); gap: 0.5rem;
+    }
+    .mobile-menu a { display: block; padding: 0.75rem 0; font-weight: 500; color: var(--slate-600); border-bottom: 1px solid var(--slate-100); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu .btn-primary { margin-top: 0.5rem; width: 100%; justify-content: center; padding: 0.9rem; font-size: 1rem; }
+    .mobile-menu.open { display: flex; }
+
+    /* ─── HERO BANNER ─── */
+    .blogs-hero {
+      padding: 9rem 2rem 5rem;
+      background: linear-gradient(135deg, var(--accent-pale) 0%, #fff 60%);
+      position: relative; overflow: hidden;
+    }
+    .blogs-hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(16,185,129,0.08); filter: blur(60px); pointer-events: none;
+    }
+    .blogs-hero::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: rgba(16,185,129,0.06); filter: blur(50px); pointer-events: none;
+    }
+    .blogs-hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+    .section-tag {
+      display: inline-block; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .blogs-hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      color: var(--slate-900); margin-bottom: 1.25rem; max-width: 700px;
+    }
+    .blogs-hero p { font-size: 1.1rem; color: var(--slate-600); line-height: 1.75; max-width: 580px; margin-bottom: 2.5rem; }
+    .search-wrap {
+      display: flex; align-items: center;
+      background: #fff; border: 1.5px solid var(--slate-200);
+      border-radius: 999px; padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+      max-width: 480px;
+      box-shadow: 0 4px 20px rgba(15,23,42,0.06);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-wrap:focus-within { border-color: var(--accent); box-shadow: 0 4px 20px rgba(16,185,129,0.15); }
+    .search-wrap svg { width: 18px; height: 18px; stroke: var(--slate-400); fill: none; stroke-width: 2; stroke-linecap: round; margin-right: 0.75rem; flex-shrink: 0; }
+    .search-wrap input {
+      flex: 1; border: none; outline: none; font-family: var(--font-body);
+      font-size: 0.95rem; color: var(--slate-900); background: transparent;
+    }
+    .search-wrap input::placeholder { color: var(--slate-400); }
+    .search-btn {
+      background: var(--primary); color: #fff; border: none;
+      border-radius: 999px; padding: 0.55rem 1.25rem;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-btn:hover { background: #043d2f; }
+
+    /* ─── TAG FILTERS ─── */
+    .tag-bar {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--slate-100);
+      background: #fff;
+      position: sticky; top: 76px; z-index: 90;
+      box-shadow: 0 2px 12px rgba(15,23,42,0.04);
+    }
+    .tag-bar-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 0.75rem;
+      overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .tag-bar-inner::-webkit-scrollbar { display: none; }
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 1rem; border-radius: 999px; border: 1.5px solid var(--slate-200);
+      font-size: 0.8rem; font-weight: 600; color: var(--slate-600);
+      cursor: pointer; white-space: nowrap;
+      transition: all 0.2s; background: #fff;
+    }
+    .tag-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .tag-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .tag-count { background: rgba(255,255,255,0.25); border-radius: 999px; padding: 0 0.4rem; font-size: 0.7rem; }
+    .tag-pill.active .tag-count { background: rgba(255,255,255,0.2); }
+    .tag-pill:not(.active) .tag-count { background: var(--slate-100); color: var(--slate-500); }
+
+    /* ─── LISTING GRID ─── */
+    .listing-section { padding: 4rem 2rem 6rem; }
+    .listing-inner { max-width: 1280px; margin: 0 auto; }
+    .listing-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 2.5rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .listing-count { font-size: 0.9rem; color: var(--slate-500); font-weight: 500; }
+    .listing-count strong { color: var(--slate-900); }
+    .sort-select {
+      border: 1.5px solid var(--slate-200); border-radius: 0.75rem;
+      padding: 0.4rem 2rem 0.4rem 0.85rem; font-family: var(--font-body);
+      font-size: 0.85rem; font-weight: 600; color: var(--slate-700);
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
+      background-color: #fff; appearance: none; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .sort-select:focus { outline: none; border-color: var(--accent); }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+
+    /* ─── BLOG CARD ─── */
+    .blog-card {
+      background: #fff; border-radius: 1.5rem;
+      border: 1px solid var(--slate-100);
+      overflow: hidden; cursor: pointer;
+      box-shadow: 0 2px 12px rgba(15,23,42,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(15,23,42,0.12); }
+    .blog-card-img {
+      aspect-ratio: 16/10; overflow: hidden; flex-shrink: 0;
+    }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+    .blog-card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+    .blog-tag-chip {
+      padding: 0.2rem 0.65rem; border-radius: 999px;
+      background: var(--accent-pale); color: #059669;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .blog-card-meta { display: flex; gap: 1.25rem; color: var(--slate-500); font-size: 0.82rem; margin-bottom: 1rem; }
+    .blog-card-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .blog-card-meta svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+    .blog-card-title {
+      font-size: 1.1rem; font-weight: 700; color: var(--slate-900);
+      margin-bottom: 0.75rem; line-height: 1.45;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      transition: color 0.2s;
+    }
+    .blog-card:hover .blog-card-title { color: var(--accent); }
+    .blog-card-excerpt {
+      font-size: 0.88rem; color: var(--slate-600); line-height: 1.7;
+      flex: 1; margin-bottom: 1.5rem;
+      display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .blog-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.25rem; border-top: 1px solid var(--slate-100); }
+    .read-more-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; font-weight: 700; color: var(--primary);
+    }
+    .read-more-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; transition: transform 0.2s; }
+    .blog-card:hover .read-more-btn svg { transform: translate(3px, -3px); }
+    .read-time { font-size: 0.78rem; color: var(--slate-400); font-weight: 500; }
+
+    /* ─── FEATURED CARD (first post) ─── */
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row; gap: 0;
+      min-height: 340px;
+    }
+    .blog-card.featured .blog-card-img { aspect-ratio: unset; flex: 0 0 45%; }
+    .blog-card.featured .blog-card-body { padding: 2.5rem 3rem; justify-content: center; }
+    .blog-card.featured .blog-card-title { font-size: 1.5rem; -webkit-line-clamp: 3; line-clamp: 3; }
+    .blog-card.featured .blog-card-excerpt { -webkit-line-clamp: 4; line-clamp: 4; }
+    .featured-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--accent); color: #fff;
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .featured-badge svg { width: 12px; height: 12px; fill: #fff; }
+
+    /* ─── NO RESULTS ─── */
+    .no-results {
+      grid-column: 1 / -1; text-align: center;
+      padding: 4rem 2rem;
+    }
+    .no-results svg { width: 60px; height: 60px; stroke: var(--slate-200); fill: none; stroke-width: 1.5; margin: 0 auto 1.5rem; }
+    .no-results h3 { font-size: 1.4rem; color: var(--slate-700); margin-bottom: 0.75rem; }
+    .no-results p { color: var(--slate-500); }
+
+    /* ─── ARTICLE VIEW ─── */
+    #articleView { display: none; }
+    .article-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-weight: 700; color: var(--primary); font-size: 0.9rem;
+      cursor: pointer; margin-bottom: 2rem;
+      transition: gap 0.2s;
+    }
+    .article-back:hover { gap: 0.75rem; }
+    .article-back svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .article-wrap { max-width: 1280px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    .article-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+    .article-hero-img {
+      width: 100%; aspect-ratio: 16/8; object-fit: cover;
+      border-radius: 1.5rem; margin-bottom: 2.5rem;
+      box-shadow: 0 16px 48px rgba(15,23,42,0.12);
+    }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .article-tag {
+      padding: 0.25rem 0.8rem; border-radius: 999px;
+      background: var(--accent-pale); color: #059669;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .article-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem); color: var(--slate-900);
+      margin-bottom: 1.25rem; line-height: 1.2;
+    }
+    .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .article-meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; color: var(--slate-500); font-weight: 500; }
+    .article-meta-item svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; }
+    .article-meta-sep { color: var(--slate-200); }
+    .article-body {
+      font-size: 1.05rem; line-height: 1.85; color: var(--slate-700);
+    }
+    .article-body h2 { font-size: 1.6rem; color: var(--slate-900); margin: 2.5rem 0 1rem; }
+    .article-body h3 { font-size: 1.25rem; color: var(--slate-900); margin: 2rem 0 0.75rem; }
+    .article-body p { margin-bottom: 1.25rem; }
+    .article-body ul, .article-body ol { margin: 0.75rem 0 1.25rem 1.5rem; }
+    .article-body li { margin-bottom: 0.6rem; }
+    .article-body strong { color: var(--slate-900); font-weight: 700; }
+    .article-body em { font-style: italic; color: var(--slate-600); }
+    .article-body blockquote {
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.5rem; background: var(--accent-pale);
+      border-radius: 0 1rem 1rem 0; margin: 2rem 0;
+    }
+    .article-body blockquote p { color: var(--primary); font-weight: 600; margin: 0; }
+    .article-divider { height: 1px; background: var(--slate-100); margin: 3rem 0; }
+
+    /* ─── FAQ IN ARTICLE ─── */
+    .article-faq { margin-top: 3rem; }
+    .article-faq h2 { font-size: 1.5rem; color: var(--slate-900); margin-bottom: 1.5rem; }
+    .faq-item {
+      background: var(--slate-50); border-radius: 1rem;
+      border: 1px solid var(--slate-100); margin-bottom: 1rem; overflow: hidden;
+    }
+    .faq-btn {
+      width: 100%; padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; text-align: left;
+      background: none; border: none; cursor: pointer; gap: 1rem; transition: background 0.2s;
+    }
+    .faq-btn.active { background: rgba(16,185,129,0.08); }
+    .faq-question { font-size: 0.95rem; font-weight: 700; color: var(--slate-900); line-height: 1.45; }
+    .faq-toggle { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--slate-200); display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.3s; }
+    .faq-btn.active .faq-toggle { background: var(--accent); transform: rotate(45deg); }
+    .faq-toggle svg { width: 12px; height: 12px; stroke: var(--slate-600); fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .faq-btn.active .faq-toggle svg { stroke: #fff; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s; padding: 0 1.5rem; }
+    .faq-answer.open { max-height: 400px; padding: 0 1.5rem 1.25rem; }
+    .faq-answer p { font-size: 0.9rem; color: var(--slate-600); line-height: 1.75; border-top: 1px solid var(--slate-100); padding-top: 1rem; }
+
+    /* ─── SIDEBAR ─── */
+    .article-sidebar { position: sticky; top: 110px; }
+    .sidebar-card {
+      background: var(--slate-50); border-radius: 1.25rem;
+      border: 1px solid var(--slate-100); padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-card h4 { font-family: var(--font-body); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 1.25rem; }
+    .sidebar-recent { display: flex; flex-direction: column; gap: 1.25rem; }
+    .sidebar-post { display: flex; gap: 1rem; cursor: pointer; }
+    .sidebar-post-img { width: 72px; height: 54px; border-radius: 0.75rem; overflow: hidden; flex-shrink: 0; }
+    .sidebar-post-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .sidebar-post:hover .sidebar-post-img img { transform: scale(1.08); }
+    .sidebar-post-date { font-size: 0.75rem; color: var(--slate-400); margin-bottom: 0.3rem; }
+    .sidebar-post-title { font-size: 0.85rem; font-weight: 700; color: var(--slate-700); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s; }
+    .sidebar-post:hover .sidebar-post-title { color: var(--accent); }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag-cloud-pill {
+      padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--slate-200);
+      font-size: 0.75rem; font-weight: 600; color: var(--slate-600);
+      cursor: pointer; transition: all 0.2s; background: #fff;
+    }
+    .tag-cloud-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+    .cta-card {
+      background: linear-gradient(135deg, var(--primary), #065f46);
+      border-radius: 1.25rem; padding: 2rem;
+    }
+    .cta-card h4 { font-family: var(--font-display); font-size: 1.2rem; color: #fff; margin-bottom: 0.75rem; }
+    .cta-card p { font-size: 0.85rem; color: var(--accent-light); line-height: 1.65; margin-bottom: 1.5rem; }
+    .cta-card-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 999px; padding: 0.7rem 1.5rem;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s, transform 0.2s; width: 100%; justify-content: center;
+    }
+    .cta-card-btn:hover { background: #059669; transform: translateY(-1px); }
+    .cta-card-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--primary); color: #fff; padding: 5rem 2rem 2.5rem; }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 4rem; margin-bottom: 4rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; }
+    .footer-logo span { color: var(--accent); }
+    .footer-about { color: rgba(148,163,184,1); font-size: 1rem; line-height: 1.8; margin-bottom: 1.75rem; }
+    .social-links { display: flex; gap: 0.75rem; }
+    .social-link { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .social-link:hover { background: var(--accent); }
+    .social-link svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .footer-col h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 2rem; font-family: var(--font-body); }
+    .contact-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; color: rgba(148,163,184,1); font-size: 0.95rem; }
+    .contact-item svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 0.1rem; }
+    .contact-item a { color: rgba(148,163,184,1); transition: color 0.2s; }
+    .contact-item a:hover { color: #fff; }
+    .quick-links { display: flex; flex-direction: column; gap: 1rem; }
+    .quick-links a { color: rgba(148,163,184,1); font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+    .quick-links a:hover { color: #fff; }
+    .quick-links a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0; transition: opacity 0.2s; }
+    .quick-links a:hover::before { opacity: 1; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      color: rgba(100,116,139,1); font-size: 0.85rem;
+    }
+    .footer-legal { display: flex; gap: 2rem; }
+    .footer-legal a { color: rgba(100,116,139,1); transition: color 0.2s; }
+    .footer-legal a:hover { color: #fff; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .article-grid { grid-template-columns: 1fr; }
+      .article-sidebar { position: static; }
+      .blog-card.featured { flex-direction: column; min-height: unset; }
+      .blog-card.featured .blog-card-img { flex: none; aspect-ratio: 16/9; }
+      .blog-card.featured .blog-card-body { padding: 1.75rem; }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+    }
+    @media (max-width: 600px) {
+      .blogs-hero { padding: 7rem 1.25rem 3.5rem; }
+      .listing-section { padding: 3rem 1.25rem 4rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .article-wrap { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="window.location.href='index.html'">Hyroo<span>.</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About Us</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#contact">Contact Us</a>
+      <a href="blogs.html" class="active">Blog</a>
+      <button class="btn-primary" onclick="window.location.href='index.html#contact'">
+        Get Started
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" onclick="closeMenu()">Home</a>
+    <a href="index.html#about" onclick="closeMenu()">About Us</a>
+    <a href="index.html#services" onclick="closeMenu()">Services</a>
+    <a href="index.html#contact" onclick="closeMenu()">Contact Us</a>
+    <a href="blogs.html" onclick="closeMenu()">Blog</a>
+    <button class="btn-primary" onclick="window.location.href='index.html#contact'">Get Started</button>
+  </div>
+</nav>
+
+<!-- ═══════════ LISTING VIEW ═══════════ -->
+<div id="listingView">
+
+  <!-- Hero -->
+  <div class="blogs-hero">
+    <div class="blogs-hero-inner fade-up">
+      <span class="section-tag">Knowledge Hub</span>
+      <h1>Expert Insights on Careers, People &amp; Performance</h1>
+      <p>Practical perspectives on leadership hiring, talent markets, and building high-performing organisations — from the team at Hyroo.</p>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search articles…" oninput="filterBlogs()" />
+        <button class="search-btn">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tag bar -->
+  <div class="tag-bar">
+    <div class="tag-bar-inner" id="tagBar"></div>
+  </div>
+
+  <!-- Listing -->
+  <section class="listing-section">
+    <div class="listing-inner">
+      <div class="listing-meta">
+        <p class="listing-count" id="listingCount"></p>
+        <select class="sort-select" id="sortSelect" onchange="filterBlogs()">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
+      </div>
+      <div class="blog-grid" id="blogGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════ ARTICLE VIEW ═══════════ -->
+<div id="articleView">
+  <div class="article-wrap" style="padding-top: 6rem;">
+    <div onclick="showListing()" class="article-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      Back to Knowledge Hub
+    </div>
+    <div class="article-grid">
+      <main class="article-main" id="articleMain"></main>
+      <aside class="article-sidebar" id="articleSidebar"></aside>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Hyroo<span>.</span></div>
+        <p class="footer-about">We help businesses simplify HR processes with smart, reliable, and easy-to-use technology designed to support growing teams.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="social-link" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch With Us</h4>
+        <ul class="contact-list">
+          <li class="contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Offices in Gurgaon and Delhi</span></li>
+          <li class="contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15.92z"/></svg><a href="tel:+919289888097">+91 9289888097</a></li>
+          <li class="contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:aakriti@uniconhr.com">aakriti@uniconhr.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <div class="quick-links">
+          <a href="index.html#contact">Contact Us</a>
+          <a href="index.html#about">About Us</a>
+          <a href="blogs.html">Blog</a>
+          <a href="index.html#services">Services</a>
+          <a href="#">Careers</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyroo. All rights reserved.</p>
+      <p>Developed By Swayam</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   BLOG DATA — Add new posts to this array only.
+   Fields:
+     id         : unique slug (used for URL hash routing)
+     title      : full article title
+     excerpt    : short teaser for the card (~2-3 sentences)
+     date       : display date string
+     author     : author name
+     readTime   : e.g. "5 min read"
+     image      : hero image URL
+     tags       : array of tag strings
+     content    : full HTML body of the article
+     faq        : array of { q, a } objects (optional)
+═══════════════════════════════════════════════════════ */
+const BLOGS = [
+  {
+    id: "indian-hiring-market-mid-senior-selective",
+    title: "The Indian Hiring Market Is Changing: Why Mid-Senior Talent Is More Selective Than Ever",
+    excerpt: "For years, hiring in India favored employers due to high talent supply. That balance is now shifting — mid-senior professionals are more intentional, discerning, and harder to close than ever before.",
+    date: "04 February, 2026",
+    author: "Hyroo",
+    readTime: "6 min read",
+    image: "https://www.uniconhr.com/uploads/blogs/people-meeting-seminar-office-concept-1-1770842747.jpg",
+    tags: ["Indian Job Market", "Hiring Trends India", "Mid to Senior Hiring", "Leadership Hiring", "Talent Acquisition"],
+    content: `
+      <p>For a long time, hiring conversations in India followed a familiar narrative. High supply. Limited options. Employers calling the shots.</p>
+      <p>That narrative is quietly but decisively changing.</p>
+      <p>Even in a cautious market environment, <strong>mid to senior professionals in India are becoming more selective</strong>, more intentional, and more discerning about where they choose to work. Compensation still matters, but it is no longer the sole decision driver. What candidates are evaluating today is far more nuanced.</p>
+      <p>Having worked closely with leadership hiring and senior mandates across industries, here are three clear shifts defining the Indian talent landscape right now.</p>
+
+      <h2>1. Mid to Senior Talent Is Selective, Even in a Cautious Market</h2>
+      <p>Despite economic uncertainty, demand for experienced professionals has not disappeared. Instead, it has become <strong>more targeted</strong>.</p>
+      <p>According to global hiring research, nearly <strong>44% of candidates continue to receive multiple job offers</strong>, even during slower hiring cycles. In India, this is especially visible across technology, product, sales leadership, finance, and growth roles.</p>
+      <p>What has changed is <em>behaviour</em>.</p>
+      <p>Mid to senior professionals are:</p>
+      <ul>
+        <li>Applying to fewer roles</li>
+        <li>Taking longer to evaluate cultural and leadership fit</li>
+        <li>Walking away from opportunities that feel misaligned, even if the brand name is strong</li>
+      </ul>
+      <p>Research also shows that <strong>26% of candidates reject offers due to poor communication</strong>, while <strong>36% decline offers because of negative interview experiences</strong>. This highlights a crucial reality: selectivity today is driven not just by compensation, but by <strong>how candidates are treated through the hiring process</strong>.</p>
+      <p>Candidates are no longer optimising only for job security. They are optimising for <strong>career trajectory, role impact, and leadership quality</strong>.</p>
+
+      <h2>2. Speed of Decision-Making Is a Competitive Advantage</h2>
+      <p>One of the most underestimated hiring differentiators in India today is <strong>speed</strong>.</p>
+      <p>Studies indicate that:</p>
+      <ul>
+        <li>Nearly <strong>70% of candidates make a decision within 48 hours</strong> of receiving an offer</li>
+        <li>Over <strong>90% decide within one week</strong></li>
+      </ul>
+      <p>Yet, many organisations still operate hiring processes that stretch over several weeks, involving multiple interview rounds, delayed feedback, and unclear ownership.</p>
+      <p>For mid to senior talent, slow hiring signals:</p>
+      <ul>
+        <li>Internal indecision</li>
+        <li>Weak leadership alignment</li>
+        <li>Low urgency for the role</li>
+      </ul>
+      <p>In contrast, organisations that move decisively are perceived as better led, more confident, and more respectful of candidate time.</p>
+      <p>In a market where counteroffers are common and parallel conversations are the norm, <strong>speed directly influences offer acceptance and candidate quality</strong>.</p>
+
+      <h2>3. Role Clarity and Leadership Access Matter More Than Inflated Titles</h2>
+      <p>Another visible shift in the Indian hiring market is how candidates evaluate opportunity.</p>
+      <p>Big titles no longer compensate for:</p>
+      <ul>
+        <li>Vague job descriptions</li>
+        <li>Unclear success metrics</li>
+        <li>Poor interview experiences</li>
+        <li>Limited access to decision-makers</li>
+      </ul>
+      <p>Nearly <strong>half of candidates prefer salary and role clarity upfront</strong>, and a significant percentage disengage when expectations are unclear or communication breaks down during interviews.</p>
+      <p>Professionals with 8–20 years of experience are asking deeper questions:</p>
+      <ul>
+        <li>What does success look like in the first 90–180 days?</li>
+        <li>Who will I work closely with?</li>
+        <li>How visible is this role to leadership?</li>
+        <li>What decisions will I truly own?</li>
+      </ul>
+      <blockquote><p>Simply put, clarity builds trust, and trust accelerates hiring.</p></blockquote>
+
+      <h2>What This Means for Employers in India</h2>
+      <p>These shifts point to a fundamental truth: <strong>The Indian hiring market has matured.</strong></p>
+      <p>To attract and close the right mid to senior talent, organisations must:</p>
+      <ul>
+        <li>Define role success before initiating interviews</li>
+        <li>Reduce hiring cycles without compromising evaluation quality</li>
+        <li>Train hiring managers on candidate communication</li>
+        <li>Treat the interview process as a two-way evaluation</li>
+      </ul>
+      <p>The organisations winning talent today are not necessarily offering the highest compensation. They are offering <strong>conviction, clarity, and respect</strong>.</p>
+
+      <h2>The Role of Recruitment Partners in This New Market</h2>
+      <p>In this environment, recruitment agencies cannot function as resume-forwarding intermediaries.</p>
+      <p>A strong recruitment partner today must:</p>
+      <ul>
+        <li>Sharpen role clarity before search begins</li>
+        <li>Provide real-time market insights</li>
+        <li>Improve candidate experience through structured communication</li>
+        <li>Act as a strategic extension of leadership, not just HR</li>
+      </ul>
+      <p>When talent has choices, <strong>alignment always outperforms volume</strong>.</p>
+
+      <h2>Looking Ahead</h2>
+      <p>Mid to senior professionals in India are no longer just looking for their next role. They are looking for <strong>direction, leadership, and meaningful impact</strong>.</p>
+      <p>Companies that recognise and adapt to this shift will continue to attract strong talent, regardless of market cycles. Those that don't may continue to wonder why roles remain open, even when resumes are plentiful.</p>
+      <p><em>If you're planning leadership or senior-level hiring in the coming months, understanding these signals early can significantly improve hiring outcomes. Follow us for such insights and facts that can help you know the landscape better!</em></p>
+    `,
+    faq: [
+      {
+        q: "Why are mid to senior professionals in India becoming more selective despite a cautious job market?",
+        a: "Mid to senior professionals now prioritize role clarity, leadership quality, growth trajectory, and work environment over just compensation. With more information available and a maturing market, experienced talent evaluates opportunities more holistically."
+      },
+      {
+        q: "How does hiring speed impact offer acceptance for senior roles?",
+        a: "Slow decision-making signals internal indecision and weak leadership alignment, while fast, structured processes improve acceptance rates and reduce the risk of losing candidates to competing offers. Studies show 70% of candidates decide within 48 hours of an offer."
+      }
+    ]
+  },
+  {
+    id: "hiring-leaders-india-global-multi-market-roles",
+    title: "Hiring Leaders in India for Global and Multi-Market Roles",
+    excerpt: "As more companies operate across regions, the demand for India-based leaders who can manage global responsibilities has grown rapidly. Here's how to approach this nuanced hiring challenge effectively.",
+    date: "01 February, 2026",
+    author: "Hyroo Team",
+    readTime: "4 min read",
+    image: "https://www.uniconhr.com/uploads/blogs/group-four-south-asian-men-s-posed-business-meeting-cafe-indians-work-with-laptops-together-using-various-gadgets-having-conversation-1-1770842788.jpg",
+    tags: ["Global Leadership Hiring", "India Leadership Talent", "Multi-market Roles", "CXO Hiring India", "Senior Leadership Hiring"],
+    content: `
+      <p>As more companies operate across regions, the demand for leaders in India who can manage global or multi-market responsibilities has grown rapidly. However, hiring for such roles requires a clear and thoughtful approach.</p>
+
+      <h2>Global Roles Don't Always Mean Global Hiring</h2>
+      <p>Many organizations make the mistake of assuming that global roles require international hiring. In reality, <strong>India has a deep pool of leaders</strong> with experience managing:</p>
+      <ul>
+        <li>Global clients and stakeholders</li>
+        <li>Distributed teams across regions</li>
+        <li>International markets and delivery models</li>
+      </ul>
+      <p>The key is identifying leaders with the right exposure and mindset — not simply casting the net overseas.</p>
+
+      <h2>What Global-Facing Roles Really Demand</h2>
+      <p>Leadership roles based in India but serving global markets require a distinct set of capabilities:</p>
+      <ul>
+        <li><strong>Strong cross-cultural communication</strong> — the ability to adapt style, tone, and expectations across geographies</li>
+        <li><strong>Experience working with international teams and customers</strong> — not just familiarity, but a proven track record</li>
+        <li><strong>Ability to operate across time zones</strong> — managing asynchronous workflows and global rhythms</li>
+        <li><strong>Strategic thinking aligned to global business goals</strong> — understanding that what works locally may need significant adaptation</li>
+      </ul>
+      <p>Not every senior leader is equipped for this. Real-world exposure matters far more than job titles.</p>
+
+      <h2>Common Pitfalls in Global Role Hiring</h2>
+      <p>Companies frequently stumble in the same ways when hiring for these mandates:</p>
+      <ul>
+        <li><strong>Prioritizing titles over real global exposure</strong> — a Director-level title at a domestic company is very different from one at a multinational</li>
+        <li><strong>Ignoring execution capability across markets</strong> — strategy is only as good as its implementation</li>
+        <li><strong>Poor role definition and unclear expectations</strong> — candidates can't evaluate fit when responsibilities are vague</li>
+        <li><strong>Inadequate onboarding for global responsibilities</strong> — even strong leaders need structured orientation to global context</li>
+      </ul>
+      <blockquote><p>These gaps often lead to performance issues despite strong resumes. Define the role before you search.</p></blockquote>
+
+      <h2>How Hyroo Supports Global-Facing Hiring</h2>
+      <p>Hyroo helps organizations hire India-based leaders for:</p>
+      <ul>
+        <li>Global delivery and operations roles</li>
+        <li>Regional and international business responsibilities</li>
+        <li>CXO and senior leadership positions supporting global markets</li>
+      </ul>
+      <p>We focus on evaluating <strong>real-world exposure, leadership maturity, and strategic fit</strong> — ensuring the right leaders are placed for roles with global impact.</p>
+      <p>Because global responsibility requires the right experience — not just the right title.</p>
+    `,
+    faq: [
+      {
+        q: "Can India-based leaders effectively manage global or multi-market roles?",
+        a: "Yes. Many leaders in India have strong experience managing global clients, distributed teams, and international markets, making them well-equipped for global-facing responsibilities. The key is identifying the right exposure during the hiring process."
+      },
+      {
+        q: "What is the biggest mistake companies make when hiring for global roles?",
+        a: "The most common mistake is prioritizing titles over real global exposure and underestimating the importance of execution capability across markets and time zones. Role definition before the search begins is critical."
+      }
+    ]
+  },
+  {
+    id: "why-cxo-hiring-is-a-business-decision-not-an-hr-task",
+    title: "Why CXO Hiring Is a Business Decision, Not an HR Task",
+    excerpt: "Hiring a CXO is one of the most critical decisions a company will ever make. Yet many organizations still approach executive hiring as a routine HR activity — a costly mistake.",
+    date: "01 February, 2026",
+    author: "Hyroo Team",
+    readTime: "4 min read",
+    image: "https://www.uniconhr.com/uploads/blogs/collaborative-process-indian-business-mans-brainstorming-meeting-officediverse-team-young-people-dressed-suits-cooperating-developing-common-project-1-1770842803.jpg",
+    tags: ["CXO Hiring", "Executive Recruitment", "Leadership Hiring", "Senior Leadership Roles", "Business Leadership"],
+    content: `
+      <p>Hiring a CXO is one of the most critical decisions a company will ever make. Yet many organizations still approach executive hiring as a routine HR activity. In reality, <strong>CXO hiring is a strategic business decision</strong> that directly impacts growth, culture, and long-term outcomes.</p>
+
+      <h2>CXO Hiring Shapes the Business</h2>
+      <p>CXO roles go far beyond functional expertise. These leaders are responsible for:</p>
+      <ul>
+        <li><strong>Translating business strategy into execution</strong> — bridging vision and reality</li>
+        <li><strong>Building leadership teams and culture</strong> — the values and behaviours a CXO models cascade through the entire organisation</li>
+        <li><strong>Managing scale, change, and complexity</strong> — navigating ambiguity at the highest levels</li>
+      </ul>
+      <p>A strong CXO doesn't just manage a function — they define direction. The wrong one doesn't just underperform; they can fundamentally alter the trajectory of the business.</p>
+
+      <h2>The Cost of Getting Leadership Wrong</h2>
+      <p>A misaligned CXO hire can result in:</p>
+      <ul>
+        <li>Slower growth and missed market opportunities</li>
+        <li>Leadership friction and cultural disruption</li>
+        <li>Loss of stakeholder confidence</li>
+        <li>Expensive and time-consuming replacements</li>
+      </ul>
+      <blockquote><p>Executive hiring mistakes are among the most expensive errors a business can make — in both financial and human capital terms.</p></blockquote>
+      <p>Industry data consistently shows that a failed CXO hire can cost anywhere from 2x to 5x the annual salary, when you factor in lost productivity, cultural damage, and replacement costs.</p>
+
+      <h2>Why Specialized CXO Recruitment Is Essential</h2>
+      <p>CXO hiring requires a very different approach from general recruitment:</p>
+      <ul>
+        <li><strong>Targeted search within proven leadership pools</strong> — the best candidates are rarely active job seekers</li>
+        <li><strong>Confidential outreach and evaluation</strong> — discretion is critical for both the organisation and the candidate</li>
+        <li><strong>Deep understanding of industry and business context</strong> — a recruiter who doesn't understand your market can't evaluate leadership fit</li>
+      </ul>
+      <p>This is why executive hiring cannot rely on generic recruitment processes, job portals, or transactional headhunting.</p>
+
+      <h2>The Hyroo Approach to CXO Hiring</h2>
+      <p>At Hyroo, we work closely with founders, boards, and leadership teams to hire CXO and senior leaders based in India who are capable of driving India-led and global-facing roles.</p>
+      <p>Our focus is on <strong>alignment</strong> — between leadership capability, business goals, and organizational culture. We don't just fill a seat; we help you define the right role, find the right person, and ensure they are set up to succeed.</p>
+      <p>Because the right leadership decisions shape the future of the business — and those decisions deserve more than a routine hiring process.</p>
+    `,
+    faq: [
+      {
+        q: "Why should CXO hiring be treated as a business decision?",
+        a: "Because CXOs directly influence strategy, culture, and long-term growth, making their hiring critical to business outcomes. A misaligned CXO can set an organization back by years, while the right one can accelerate growth significantly."
+      },
+      {
+        q: "Why is specialized executive recruitment important for CXO roles?",
+        a: "CXO hiring requires confidential search, deep leadership evaluation, and business alignment that generic recruitment processes cannot provide. The best executive candidates are rarely active job seekers and need to be approached through targeted, relationship-based outreach."
+      }
+    ]
+  }
+];
+
+/* ═══════════ STATE ═══════════ */
+let activeTag = "All";
+let currentArticleId = null;
+
+/* ═══════════ INIT ═══════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  buildTagBar();
+  filterBlogs();
+  setupScrollAnimations();
+
+  // Hash-based routing
+  if (location.hash && location.hash.startsWith('#post/')) {
+    const id = location.hash.replace('#post/', '');
+    const post = BLOGS.find(b => b.id === id);
+    if (post) showArticle(post);
+  }
+});
+
+/* ═══════════ TAG BAR ═══════════ */
+function buildTagBar() {
+  const allTags = ["All", ...new Set(BLOGS.flatMap(b => b.tags))];
+  const bar = document.getElementById('tagBar');
+  bar.innerHTML = '';
+  allTags.forEach(tag => {
+    const pill = document.createElement('button');
+    pill.className = 'tag-pill' + (tag === activeTag ? ' active' : '');
+    const count = tag === "All" ? BLOGS.length : BLOGS.filter(b => b.tags.includes(tag)).length;
+    pill.innerHTML = `${tag} <span class="tag-count">${count}</span>`;
+    pill.onclick = () => { activeTag = tag; buildTagBar(); filterBlogs(); };
+    bar.appendChild(pill);
+  });
+}
+
+/* ═══════════ FILTER & RENDER LISTING ═══════════ */
+function filterBlogs() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const sort = document.getElementById('sortSelect')?.value || 'newest';
+  let posts = BLOGS.filter(b => {
+    const matchTag = activeTag === "All" || b.tags.includes(activeTag);
+    const matchQ = !q || b.title.toLowerCase().includes(q) || b.excerpt.toLowerCase().includes(q) || b.tags.some(t => t.toLowerCase().includes(q));
+    return matchTag && matchQ;
+  });
+
+  if (sort === 'oldest') posts = [...posts].reverse();
+
+  const grid = document.getElementById('blogGrid');
+  const countEl = document.getElementById('listingCount');
+  countEl.innerHTML = `Showing <strong>${posts.length}</strong> of <strong>${BLOGS.length}</strong> articles`;
+
+  if (!posts.length) {
+    grid.innerHTML = `<div class="no-results">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <h3>No articles found</h3>
+      <p>Try a different search term or tag.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = posts.map((post, i) => {
+    const isFeatured = i === 0 && activeTag === "All" && !q;
+    return renderCard(post, isFeatured);
+  }).join('');
+}
+
+function renderCard(post, featured = false) {
+  const tagsHtml = post.tags.slice(0, 2).map(t => `<span class="blog-tag-chip">${t}</span>`).join('');
+  const featuredBadge = featured ? `<div class="featured-badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Featured</div>` : '';
+  return `
+    <article class="blog-card${featured ? ' featured' : ''}" onclick="showArticleById('${post.id}')">
+      <div class="blog-card-img"><img src="${post.image}" alt="${post.title}" loading="lazy" /></div>
+      <div class="blog-card-body">
+        ${featuredBadge}
+        <div class="blog-tags">${tagsHtml}</div>
+        <div class="blog-card-meta">
+          <span><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${post.date}</span>
+          <span><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${post.author}</span>
+        </div>
+        <h3 class="blog-card-title">${post.title}</h3>
+        <p class="blog-card-excerpt">${post.excerpt}</p>
+        <div class="blog-card-footer">
+          <span class="read-more-btn">Read Article <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+          <span class="read-time">${post.readTime}</span>
+        </div>
+      </div>
+    </article>`;
+}
+
+/* ═══════════ ARTICLE VIEW ═══════════ */
+function showArticleById(id) {
+  const post = BLOGS.find(b => b.id === id);
+  if (post) showArticle(post);
+}
+
+function showArticle(post) {
+  currentArticleId = post.id;
+  history.pushState(null, '', '#post/' + post.id);
+  window.scrollTo({ top: 0 });
+
+  // Populate main article
+  const faqHtml = post.faq ? `
+    <div class="article-faq">
+      <h2>Frequently Asked Questions</h2>
+      ${post.faq.map((f, i) => `
+        <div class="faq-item">
+          <button class="faq-btn${i === 0 ? ' active' : ''}" onclick="toggleFaq(this)">
+            <span class="faq-question">${f.q}</span>
+            <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer${i === 0 ? ' open' : ''}"><p>${f.a}</p></div>
+        </div>`).join('')}
+    </div>` : '';
+
+  const tagsHtml = post.tags.map(t => `<span class="article-tag">${t}</span>`).join('');
+
+  document.getElementById('articleMain').innerHTML = `
+    <img class="article-hero-img" src="${post.image}" alt="${post.title}" />
+    <div class="article-header">
+      <div class="article-tags">${tagsHtml}</div>
+      <h1 class="article-title">${post.title}</h1>
+      <div class="article-meta">
+        <span class="article-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${post.date}</span>
+        <span class="article-meta-sep">·</span>
+        <span class="article-meta-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${post.author}</span>
+        <span class="article-meta-sep">·</span>
+        <span class="article-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${post.readTime}</span>
+      </div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">${post.content}</div>
+    ${faqHtml}`;
+
+  // Populate sidebar
+  const otherPosts = BLOGS.filter(b => b.id !== post.id);
+  const recentHtml = otherPosts.map(p => `
+    <div class="sidebar-post" onclick="showArticleById('${p.id}')">
+      <div class="sidebar-post-img"><img src="${p.image}" alt="${p.title}" loading="lazy" /></div>
+      <div class="sidebar-post-text">
+        <div class="sidebar-post-date">${p.date}</div>
+        <div class="sidebar-post-title">${p.title}</div>
+      </div>
+    </div>`).join('');
+
+  const allTags = [...new Set(BLOGS.flatMap(b => b.tags))];
+  const tagCloudHtml = allTags.map(t => `<span class="tag-cloud-pill" onclick="showListingWithTag('${t}')">${t}</span>`).join('');
+
+  document.getElementById('articleSidebar').innerHTML = `
+    <div class="sidebar-card">
+      <h4>Recent Posts</h4>
+      <div class="sidebar-recent">${recentHtml}</div>
+    </div>
+    <div class="sidebar-card">
+      <h4>Tags</h4>
+      <div class="tag-cloud">${tagCloudHtml}</div>
+    </div>
+    <div class="cta-card">
+      <h4>Need a Hiring Partner?</h4>
+      <p>We specialize in mid-senior to CXO hiring across industries. Let's talk about your talent needs.</p>
+      <button class="cta-card-btn" onclick="window.location.href='index.html#contact'">
+        Get a Quote
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>`;
+
+  // Switch views
+  document.getElementById('listingView').style.display = 'none';
+  document.getElementById('articleView').style.display = 'block';
+}
+
+function showListing() {
+  currentArticleId = null;
+  history.pushState(null, '', location.pathname);
+  document.getElementById('articleView').style.display = 'none';
+  document.getElementById('listingView').style.display = 'block';
+  window.scrollTo({ top: 0 });
+}
+
+function showListingWithTag(tag) {
+  activeTag = tag;
+  buildTagBar();
+  filterBlogs();
+  showListing();
+}
+
+// Back button support
+window.addEventListener('popstate', () => {
+  if (location.hash.startsWith('#post/')) {
+    const id = location.hash.replace('#post/', '');
+    const post = BLOGS.find(b => b.id === id);
+    if (post) showArticle(post);
+  } else {
+    showListing();
+  }
+});
+
+/* ═══════════ FAQ TOGGLE ═══════════ */
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  btn.closest('.article-faq, section').querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  btn.closest('.article-faq, section').querySelectorAll('.faq-btn').forEach(b => b.classList.remove('active'));
+  if (!isOpen) { answer.classList.add('open'); btn.classList.add('active'); }
+}
+
+/* ═══════════ HAMBURGER ═══════════ */
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  const menu = document.getElementById('mobileMenu');
+  const open = document.getElementById('menuOpen');
+  const close = document.getElementById('menuClose');
+  menu.classList.toggle('open');
+  const isOpen = menu.classList.contains('open');
+  open.style.display = isOpen ? 'none' : 'block';
+  close.style.display = isOpen ? 'block' : 'none';
+});
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('menuOpen').style.display = 'block';
+  document.getElementById('menuClose').style.display = 'none';
+}
+
+/* ═══════════ SCROLL ANIMATIONS ═══════════ */
+function setupScrollAnimations() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+}
+</script>
+
+</body>
+</html>

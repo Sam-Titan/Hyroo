@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyroo – Global Talent Advisory & Recruitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #064e3b;
+      --accent: #10b981;
+      --accent-light: #d1fae5;
+      --accent-pale: #f0fdf4;
+      --white: #ffffff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-900: #0f172a;
+      --font-body: 'Outfit', sans-serif;
+      --font-display: 'DM Serif Display', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--slate-900);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
+
+    a { text-decoration: none; color: inherit; }
+
+    img { max-width: 100%; display: block; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 2rem;
+      height: 76px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--slate-600);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--primary); color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.85rem; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #043d2f; transform: translateY(-1px); }
+    .btn-accent {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--accent); color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      font-size: 0.95rem; font-weight: 700;
+      border: none; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(16,185,129,0.25);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-accent:hover { background: #059669; transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: #fff; color: var(--slate-900);
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      font-size: 0.95rem; font-weight: 700;
+      border: 2px solid var(--slate-200); cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-outline:hover { background: var(--slate-50); }
+
+    /* hamburger */
+    .hamburger {
+      display: none; background: none; border: none;
+      cursor: pointer; color: var(--slate-600);
+    }
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: #fff; padding: 1rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--slate-100);
+      gap: 0.5rem;
+    }
+    .mobile-menu a {
+      display: block; padding: 0.75rem 0;
+      font-weight: 500; color: var(--slate-600);
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu .btn-primary { margin-top: 0.5rem; width: 100%; justify-content: center; padding: 0.9rem; font-size: 1rem; }
+    .mobile-menu.open { display: flex; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      padding: 9rem 2rem 5rem;
+      overflow: hidden;
+    }
+    .hero-blob-1, .hero-blob-2 {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); z-index: 0; pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 500px; height: 500px;
+      background: rgba(16,185,129,0.07);
+      top: -10%; left: -5%;
+    }
+    .hero-blob-2 {
+      width: 500px; height: 500px;
+      background: rgba(16,185,129,0.07);
+      bottom: -10%; right: -5%;
+    }
+    .hero-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 4rem;
+      position: relative; z-index: 1;
+    }
+    .hero-text { flex: 1; max-width: 600px; }
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: rgba(16,185,129,0.12);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      color: var(--slate-900); margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero p {
+      font-size: 1.15rem; color: var(--slate-600);
+      line-height: 1.75; margin-bottom: 2.5rem; max-width: 540px;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-image { flex: 1; display: flex; justify-content: center; position: relative; }
+    .hero-image-wrap {
+      position: relative;
+      max-width: 460px; width: 100%;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(16,185,129,0.18);
+      filter: blur(60px); z-index: 0;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+    .hero-image img { position: relative; z-index: 1; transform: translateY(3rem); filter: drop-shadow(0 24px 48px rgba(0,0,0,0.18)); }
+    .hero-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 96px; background: linear-gradient(to top, #fff, transparent); z-index: 2; }
+
+    /* ─── LOGO CAROUSEL ─── */
+    .carousel-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--slate-100);
+      border-bottom: 1px solid var(--slate-100);
+      background: #fff;
+      overflow: hidden;
+    }
+    .carousel-label {
+      text-align: center;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate-400);
+      margin-bottom: 2rem;
+    }
+    .carousel-track-wrap { position: relative; overflow: hidden; }
+    .carousel-track {
+      display: flex; align-items: center;
+      animation: scroll 40s linear infinite;
+      width: max-content;
+    }
+    .carousel-track:hover { animation-play-state: paused; }
+    @keyframes scroll { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    .carousel-item {
+      width: 140px; height: 64px; margin: 0 2.5rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      filter: grayscale(1); opacity: 0.45;
+      transition: filter 0.3s, opacity 0.3s;
+    }
+    .carousel-item:hover { filter: grayscale(0); opacity: 1; }
+    .carousel-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    /* ─── SECTIONS COMMON ─── */
+    section { position: relative; }
+    .section-pad { padding: 6rem 2rem; }
+    .container { max-width: 1280px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      color: var(--slate-900); margin-bottom: 1rem;
+    }
+    .section-title.light { color: #fff; }
+    .section-desc { font-size: 1.05rem; color: var(--slate-600); max-width: 680px; margin: 0 auto; line-height: 1.75; }
+    .section-desc.light { color: rgba(209,250,229,0.7); }
+
+    /* ─── STATS ─── */
+    .stats-section { background: var(--accent-pale); }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 3rem;
+    }
+    .stat-card {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      cursor: default;
+    }
+    .stat-circle {
+      width: 190px; height: 190px; border-radius: 50%;
+      background: #fff; border: 4px solid rgba(16,185,129,0.15);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      box-shadow: 0 16px 48px rgba(16,185,129,0.1);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .stat-card:hover .stat-circle {
+      transform: scale(1.05);
+      border-color: rgba(16,185,129,0.4);
+      box-shadow: 0 24px 60px rgba(16,185,129,0.18);
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.4rem; color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .stat-divider {
+      width: 2.5rem; height: 3px;
+      background: rgba(16,185,129,0.2); border-radius: 99px;
+      margin: 0.4rem 0 0.6rem; transition: width 0.3s;
+    }
+    .stat-card:hover .stat-divider { width: 4rem; }
+    .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--slate-600); line-height: 1.45; max-width: 130px; }
+
+    /* ─── INDUSTRY ─── */
+    .industry-section { background: #064e3b; }
+    .industry-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 3rem 2.5rem;
+    }
+    .industry-card {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      cursor: default;
+    }
+    .industry-icon-wrap {
+      width: 96px; height: 96px; border-radius: 2rem;
+      background: rgba(6,78,59,0.5);
+      border: 1px solid rgba(16,185,129,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 2rem;
+      transition: border-color 0.3s;
+    }
+    .industry-card:hover .industry-icon-wrap { border-color: rgba(16,185,129,0.6); }
+    .industry-icon {
+      width: 60px; height: 60px; border-radius: 1.25rem;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+      transition: transform 0.3s;
+    }
+    .industry-card:hover .industry-icon { transform: scale(1.1); }
+    .industry-icon svg { width: 28px; height: 28px; color: #fff; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .industry-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem; line-height: 1.3; }
+    .industry-desc { font-size: 0.85rem; color: rgba(209,250,229,0.6); line-height: 1.6; }
+
+    /* ─── SERVICES TABLE ─── */
+    .services-section { background: #fff; }
+    .table-wrap { overflow-x: auto; border-radius: 1.5rem; border: 1px solid var(--slate-100); box-shadow: 0 16px 48px rgba(15,23,42,0.06); }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    thead tr { background: var(--slate-50); border-bottom: 1px solid var(--slate-100); }
+    th {
+      padding: 1.5rem 2rem;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--slate-900); text-align: left;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--slate-100);
+      transition: background 0.2s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--slate-50); }
+    td { padding: 1.25rem 2rem; }
+    .td-service { display: flex; align-items: center; gap: 1rem; }
+    .service-icon {
+      width: 40px; height: 40px; border-radius: 0.75rem;
+      background: rgba(16,185,129,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    tbody tr:hover .service-icon { background: var(--accent); color: #fff; }
+    .service-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .service-name { font-weight: 700; color: var(--slate-900); }
+    .td-type, .td-inc { font-size: 0.95rem; color: var(--slate-600); }
+    .ref-badge {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      background: var(--accent-pale); color: #059669;
+      border-radius: 999px; font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .ref-dash { color: var(--slate-200); }
+
+    /* ─── EXPERTISE ─── */
+    .expertise-section { background: var(--slate-50); }
+    .expertise-inner {
+      display: flex; align-items: center; gap: 5rem;
+    }
+    .expertise-text { flex: 1; }
+    .expertise-text h3 { font-size: clamp(1.8rem, 3vw, 2.8rem); color: var(--slate-900); margin-bottom: 1.5rem; }
+    .expertise-text p { font-size: 1.05rem; color: var(--slate-600); line-height: 1.75; margin-bottom: 2rem; }
+    .check-list { list-style: none; margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .check-list li { display: flex; align-items: center; gap: 1rem; font-weight: 600; color: var(--slate-700); }
+    .check-icon { color: var(--accent); flex-shrink: 0; }
+    .check-icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .expertise-image { flex: 1; position: relative; display: flex; justify-content: center; }
+    .expertise-image img { max-width: 480px; width: 100%; filter: drop-shadow(0 24px 48px rgba(0,0,0,0.15)); }
+    .float-card {
+      position: absolute; bottom: -2.5rem; left: -1.5rem;
+      background: #fff; padding: 1.5rem 1.75rem; border-radius: 1.25rem;
+      box-shadow: 0 16px 48px rgba(15,23,42,0.12); border: 1px solid var(--slate-100);
+    }
+    .float-card-inner { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .float-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(16,185,129,0.1); display: flex; align-items: center; justify-content: center; }
+    .float-icon svg { width: 24px; height: 24px; stroke: var(--accent); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .float-num { font-size: 1.5rem; font-weight: 800; color: var(--slate-900); }
+    .float-sub { font-size: 0.8rem; color: var(--slate-500); }
+    .float-footer { font-size: 0.85rem; color: var(--slate-600); font-weight: 600; }
+
+    /* ─── CEO DESK ─── */
+    .ceo-section { background: #fff; }
+    .ceo-inner { display: flex; align-items: center; gap: 5rem; }
+    .ceo-photo-wrap { flex: 0 0 35%; position: relative; }
+    .ceo-photo {
+      border-radius: 2rem; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+      transform: rotate(-2deg);
+      position: relative;
+    }
+    .ceo-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+    .ceo-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(16,185,129,0.05); mix-blend-mode: multiply;
+    }
+    .ceo-nametag {
+      position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%);
+      background: #fff; padding: 0.5rem 1.5rem; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid var(--slate-100);
+      white-space: nowrap; font-weight: 700; color: var(--primary); font-size: 0.95rem;
+      z-index: 10;
+    }
+    .ceo-quote-icon {
+      position: absolute; top: -1.5rem; right: -1.5rem;
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 32px rgba(16,185,129,0.35); z-index: 10;
+    }
+    .ceo-quote-icon svg { width: 28px; height: 28px; fill: #fff; }
+    .ceo-text { flex: 1; }
+    .ceo-text h3 { font-size: clamp(1.8rem, 3vw, 2.8rem); color: var(--slate-900); margin-bottom: 2rem; }
+    .ceo-quotes { display: flex; flex-direction: column; gap: 1.5rem; }
+    .ceo-quotes p { font-size: 1.05rem; color: var(--slate-600); line-height: 1.8; font-style: italic; }
+    .ceo-footer { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--slate-100); }
+    .ceo-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--slate-900); }
+    .ceo-company { color: var(--accent); font-weight: 600; margin-top: 0.25rem; }
+
+    /* ─── FAQ ─── */
+    .faq-section { background: var(--slate-50); }
+    .faq-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      max-width: 900px; margin: 0 auto;
+      align-items: start;
+    }
+    .faq-item {
+      background: #fff; border-radius: 1.25rem;
+      border: 1px solid var(--slate-100);
+      box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .faq-item:hover { box-shadow: 0 8px 24px rgba(15,23,42,0.08); }
+    .faq-btn {
+      width: 100%; padding: 1.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      text-align: left; background: none; border: none; cursor: pointer;
+      min-height: 90px; gap: 1rem;
+      transition: background 0.2s;
+    }
+    .faq-btn.active { background: rgba(16,185,129,0.08); }
+    .faq-question { font-size: 1rem; font-weight: 700; color: var(--slate-900); line-height: 1.45; }
+    .faq-toggle { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--slate-100); display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.3s; }
+    .faq-btn.active .faq-toggle { background: var(--accent); transform: rotate(45deg); }
+    .faq-toggle svg { width: 14px; height: 14px; stroke: var(--slate-500); fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .faq-btn.active .faq-toggle svg { stroke: #fff; }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 2rem;
+    }
+    .faq-answer.open { max-height: 500px; padding: 0 2rem 1.5rem; }
+    .faq-answer p { font-size: 0.95rem; color: var(--slate-600); line-height: 1.75; white-space: pre-line; border-top: 1px solid var(--slate-50); padding-top: 1rem; }
+
+    /* ─── KNOWLEDGE HUB ─── */
+    .hub-section { background: #fff; }
+    .hub-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap; }
+    .hub-header-text h3 { font-size: clamp(1.6rem, 2.5vw, 2.4rem); color: var(--slate-900); }
+    .view-all { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--accent); font-size: 0.95rem; transition: gap 0.2s; }
+    .view-all:hover { gap: 0.75rem; }
+    .view-all svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+    .blog-card { cursor: pointer; }
+    .blog-img-wrap {
+      aspect-ratio: 16/10; border-radius: 1.5rem; overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .blog-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .blog-card:hover .blog-img-wrap img { transform: scale(1.08); }
+    .blog-meta { display: flex; gap: 1.5rem; color: var(--slate-500); font-size: 0.85rem; margin-bottom: 1rem; }
+    .blog-meta-item { display: flex; align-items: center; gap: 0.4rem; }
+    .blog-meta-item svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .blog-title { font-size: 1.1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.75rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s; }
+    .blog-card:hover .blog-title { color: var(--accent); }
+    .blog-excerpt { font-size: 0.9rem; color: var(--slate-600); line-height: 1.7; margin-bottom: 1.25rem; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .read-more { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--slate-900); font-size: 0.9rem; position: relative; }
+    .read-more::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--slate-900); transition: transform 0.3s; transform-origin: right; }
+    .blog-card:hover .read-more::after { transform: scaleX(0); }
+    .read-more svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
+    .blog-card:hover .read-more svg { transform: translate(3px, -3px); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--primary); color: #fff; padding: 5rem 2rem 2.5rem; }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 4rem; margin-bottom: 4rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; }
+    .footer-logo span { color: var(--accent); }
+    .footer-about { color: rgba(148,163,184,1); font-size: 1rem; line-height: 1.8; margin-bottom: 1.75rem; }
+    .social-links { display: flex; gap: 0.75rem; }
+    .social-link {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .social-link:hover { background: var(--accent); }
+    .social-link svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .footer-col h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 2rem; font-family: var(--font-body); }
+    .contact-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; color: rgba(148,163,184,1); font-size: 0.95rem; }
+    .contact-item svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 0.1rem; }
+    .contact-item a { color: rgba(148,163,184,1); transition: color 0.2s; }
+    .contact-item a:hover { color: #fff; }
+    .quick-links { display: flex; flex-direction: column; gap: 1rem; }
+    .quick-links a { color: rgba(148,163,184,1); font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+    .quick-links a:hover { color: #fff; }
+    .quick-links a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0; transition: opacity 0.2s; }
+    .quick-links a:hover::before { opacity: 1; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      color: rgba(100,116,139,1); font-size: 0.85rem;
+    }
+    .footer-legal { display: flex; gap: 2rem; }
+    .footer-legal a { color: rgba(100,116,139,1); transition: color 0.2s; }
+    .footer-legal a:hover { color: #fff; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-in { opacity: 0; transition: opacity 0.6s ease; }
+    .fade-in.visible { opacity: 1; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .hero-inner { flex-direction: column; gap: 2.5rem; }
+      .hero-image { display: none; }
+      .expertise-inner { flex-direction: column; gap: 3rem; }
+      .float-card { display: none; }
+      .ceo-inner { flex-direction: column; gap: 4rem; }
+      .ceo-photo-wrap { flex: none; width: 100%; max-width: 380px; margin: 0 auto; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .hub-header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .section-pad { padding: 4rem 1.25rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .stat-circle { width: 150px; height: 150px; }
+      .stat-value { font-size: 1.8rem; }
+      .industry-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .hero { padding: 7rem 1.25rem 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo">Hyroo<span>.</span></div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact Us</a>
+      <a href="#blog">Blog</a>
+      <button class="btn-primary">
+        Get Started
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMenu()">Home</a>
+    <a href="#about" onclick="closeMenu()">About Us</a>
+    <a href="#services" onclick="closeMenu()">Services</a>
+    <a href="#contact" onclick="closeMenu()">Contact Us</a>
+    <a href="#blog" onclick="closeMenu()">Blog</a>
+    <button class="btn-primary">Get Started</button>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
+  <div class="hero-inner container">
+    <div class="hero-text fade-up">
+      <span class="badge">Discover, Engage, Empower</span>
+      <h1>Helping Businesses Scale With the <span class="highlight">Right Talent</span>, Globally</h1>
+      <p>Hyroo is a dedicated, full-service talent advisory and recruitment firm that has been helping companies hire top talent and scale efficiently for over 20 years.</p>
+      <div class="hero-ctas">
+        <button class="btn-accent">
+          GET A QUOTE
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <button class="btn-outline">ABOUT US</button>
+      </div>
+    </div>
+    <div class="hero-image fade-in">
+      <div class="hero-image-wrap">
+        <div class="hero-glow"></div>
+        <img src="https://uniconhr.com/uploads/home/hero/fcee46f70f51ad96c4824dcb246cfc4b.png" alt="Hyroo Professional" referrerpolicy="no-referrer" />
+        <div class="hero-fade"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ LOGO CAROUSEL ═══════════════ -->
+<div class="carousel-section">
+  <p class="carousel-label">Our Notable Clients</p>
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- duplicated in JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ STATS ═══════════════ -->
+<section class="stats-section section-pad">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">Proven Impact</span>
+      <h2 class="section-title">A Driving Force in Shaping Global Talent Landscape</h2>
+      <p class="section-desc">Trusted recruitment partners to Fortune 500 companies, global tech brands, and fast-growing start-ups for two decades.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card fade-up"><div class="stat-circle"><div class="stat-value">20</div><div class="stat-divider"></div><div class="stat-label">Years of Recruitment Expertise</div></div></div>
+      <div class="stat-card fade-up" style="transition-delay:.08s"><div class="stat-circle"><div class="stat-value">12000+</div><div class="stat-divider"></div><div class="stat-label">Careers Built Across India &amp; Overseas</div></div></div>
+      <div class="stat-card fade-up" style="transition-delay:.16s"><div class="stat-circle"><div class="stat-value">300+</div><div class="stat-divider"></div><div class="stat-label">Technology &amp; Leadership Roles Closed Every Year</div></div></div>
+      <div class="stat-card fade-up" style="transition-delay:.24s"><div class="stat-circle"><div class="stat-value">40+</div><div class="stat-divider"></div><div class="stat-label">Specialist Recruiters &amp; Talent Partners</div></div></div>
+      <div class="stat-card fade-up" style="transition-delay:.32s"><div class="stat-circle"><div class="stat-value">100+</div><div class="stat-divider"></div><div class="stat-label">Clients Served — From Start-ups To Multinationals</div></div></div>
+      <div class="stat-card fade-up" style="transition-delay:.4s"><div class="stat-circle"><div class="stat-value">6</div><div class="stat-divider"></div><div class="stat-label">Countries Served Through Global Hiring Mandates</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INDUSTRY SPECIALISATIONS ═══════════════ -->
+<section class="industry-section section-pad" id="industries">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">Industry-Specific Hiring</span>
+      <h2 class="section-title light">Industry Specialisations</h2>
+      <p class="section-desc light">Each industry is unique — so is its talent. With deep sector expertise, Hyroo delivers industry-specific hiring solutions for precise and scalable recruitment.</p>
+    </div>
+    <div class="industry-grid">
+      <div class="industry-card fade-up">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><circle cx="20" cy="16" r="1"/></svg></div></div>
+        <h4 class="industry-title">Automobile &amp; Auto Components</h4>
+        <p class="industry-desc">Driving talent across OEMs, EV players, and auto component manufacturers.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.06s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div></div>
+        <h4 class="industry-title">Information Technology &amp; Digital</h4>
+        <p class="industry-desc">Building high-impact tech, product, and digital teams at scale.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.12s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div></div>
+        <h4 class="industry-title">BFSI &amp; FinTech</h4>
+        <p class="industry-desc">Hiring trusted leaders and specialists for regulated, fast-evolving financial ecosystems.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.18s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><path d="M2 20h20M7 20V10l5-5 5 5v10M9 20v-5h6v5"/></svg></div></div>
+        <h4 class="industry-title">Manufacturing &amp; Engineering</h4>
+        <p class="industry-desc">Powering plants and projects with technically strong and execution-focused talent.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.24s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div>
+        <h4 class="industry-title">Healthcare &amp; Pharmaceuticals</h4>
+        <p class="industry-desc">Supporting growth with skilled professionals across clinical, commercial, and R&amp;D roles.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.3s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div></div>
+        <h4 class="industry-title">Ecommerce, Retail &amp; Internet Businesses</h4>
+        <p class="industry-desc">Growth and digital leaders for high-velocity businesses.</p>
+      </div>
+      <div class="industry-card fade-up" style="transition-delay:.36s">
+        <div class="industry-icon-wrap"><div class="industry-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div></div>
+        <h4 class="industry-title">Supply Chain and Logistics</h4>
+        <p class="industry-desc">Strengthening operations with leaders who move businesses efficiently and reliably.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="services-section section-pad" id="services">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">Our Solutions</span>
+      <h2 class="section-title">Our Services</h2>
+      <p class="section-desc">Comprehensive HR and recruitment solutions tailored to support your business growth and operational efficiency.</p>
+    </div>
+    <div class="table-wrap fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Services</th>
+            <th>Type</th>
+            <th>Inclusions</th>
+            <th>Ref</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="td-service"><div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><span class="service-name">Staffing</span></div></td>
+            <td class="td-type">Contractual/commission based</td>
+            <td class="td-inc">Recruitment</td>
+            <td><span class="ref-badge">Hunar</span></td>
+          </tr>
+          <tr>
+            <td><div class="td-service"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="service-name">Outsourcing HR Teams</span></div></td>
+            <td class="td-type">Monthly retainer</td>
+            <td class="td-inc">Contracts, joining letter, hiring, leave</td>
+            <td><span class="ref-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><div class="td-service"><div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><span class="service-name">Third Party Payroll</span></div></td>
+            <td class="td-type">Monthly retainer</td>
+            <td class="td-inc">—</td>
+            <td><span class="ref-badge">Ranstad</span></td>
+          </tr>
+          <tr>
+            <td><div class="td-service"><div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><span class="service-name">Employer Branding</span></div></td>
+            <td class="td-type">Monthly retainer</td>
+            <td class="td-inc">LinkedIn, Glassdoor, Google reviews, CXO LinkedIn</td>
+            <td><span class="ref-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><div class="td-service"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><span class="service-name">Playbook/Material</span></div></td>
+            <td class="td-type">One time sale</td>
+            <td class="td-inc">Contracts, joining letter, leave, policies</td>
+            <td><span class="ref-dash">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EXPERTISE ═══════════════ -->
+<section class="expertise-section section-pad" id="about">
+  <div class="container">
+    <div class="expertise-inner">
+      <div class="expertise-text fade-up">
+        <span class="section-tag">Our Expertise</span>
+        <h3>We Specialize in Mid-Senior to CXO Level Hiring</h3>
+        <p>We connect organizations with high-impact leaders and technologists who drive scale, transformation, and results. Our experience spans fast-growing startups to global enterprises, delivering talent that performs from day one.</p>
+        <ul class="check-list">
+          <li><span class="check-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>Technology, Product &amp; IT Leadership Roles</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>MNCs &amp; High-Growth Startups</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>20+ Years of Curated Talent Database</li>
+        </ul>
+        <button class="btn-primary" style="padding:.9rem 2rem;font-size:.95rem;">
+          GET A QUOTE
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="expertise-image fade-in">
+        <img src="https://uniconhr.com/uploads/home/expertise/c8bbc922b269d86c1a743112b18823c9.png" alt="Expertise" referrerpolicy="no-referrer" />
+        <div class="float-card">
+          <div class="float-card-inner">
+            <div class="float-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div><div class="float-num">100%</div><div class="float-sub">Client Satisfaction</div></div>
+          </div>
+          <div class="float-footer">Trusted by Global Leaders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CEO DESK ═══════════════ -->
+<section class="ceo-section section-pad">
+  <div class="container">
+    <div class="ceo-inner">
+      <div class="ceo-photo-wrap fade-in">
+        <div class="ceo-photo">
+          <img src="https://uniconhr.com/uploads/home/founder/fc0cf57970b17eb3cc67be194ad5b9fd.jpeg" alt="Aakriti Bansal – CEO" referrerpolicy="no-referrer" />
+        </div>
+        <div class="ceo-nametag">Aakriti Bansal</div>
+        <div class="ceo-quote-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        </div>
+      </div>
+      <div class="ceo-text fade-up">
+        <span class="section-tag">From the CEO's Desk</span>
+        <h3>Building Careers. Building Trust</h3>
+        <div class="ceo-quotes">
+          <p>"UniconHR was built on a belief — that people are at the heart of every successful organisation. Every role we close and every career we shape is a responsibility we carry with sincerity and pride."</p>
+          <p>"Over the years, we've had the privilege of supporting organisations through growth, restructuring and global expansion, while helping thousands of professionals find careers that truly align with their aspirations."</p>
+          <p>"As we continue our journey, our commitment remains the same: to build meaningful connections between exceptional talent and outstanding organisations."</p>
+        </div>
+        <div class="ceo-footer">
+          <div class="ceo-title">Founder &amp; CEO</div>
+          <div class="ceo-company">Hyroo (formerly UniconHR)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="faq-section section-pad">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-tag">Frequently Asked Questions</span>
+      <h2 class="section-title">Everything You Need to Know About Our HR Services</h2>
+    </div>
+    <div class="faq-grid">
+
+      <div class="faq-item fade-up">
+        <button class="faq-btn active" onclick="toggleFaq(this)">
+          <span class="faq-question">What is Hyroo?</span>
+          <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer open"><p>Hyroo is a specialized recruitment firm helping businesses hire high-impact talent across mid-senior to CXO roles – faster, smarter, and better.</p></div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:.08s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-question">What services does Hyroo provide?</span>
+          <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><p>Talent Sourcing &amp; Market Mapping, Candidate Screening &amp; Evaluation, Interview Coordination &amp; Scheduling, Offer Management &amp; Closure Support, Onboarding Support, and Hiring Advisory &amp; Workforce Consulting.</p></div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:.12s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-question">Who can use Hyroo services?</span>
+          <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><p>Our services support startups, SMBs, and large enterprises — including global MNCs and Fortune 500 companies — delivering dependable recruitment expertise across domestic and international markets.</p></div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:.16s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-question">Does Hyroo offer customized HR solutions?</span>
+          <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><p>Yes, Hyroo tailors its recruitment solutions to your business size, industry context, and specific hiring needs.</p></div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:.2s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-question">How can I get started with Hyroo?</span>
+          <span class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer"><p>Contact us through our website or reach out directly. We'll understand your hiring requirements and recommend the right recruitment solution.
+
+Email: aakriti@uniconhr.com
+Phone: +91 9289888097</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ KNOWLEDGE HUB ═══════════════ -->
+<section class="hub-section section-pad" id="blog">
+  <div class="container">
+    <div class="hub-header fade-up">
+      <div class="hub-header-text">
+        <span class="section-tag">Knowledge Hub</span>
+        <h3>Expert Insights on Careers, People, and Performance</h3>
+      </div>
+      <a href="#" class="view-all">View All Posts <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+    </div>
+    <div class="blog-grid">
+      <article class="blog-card fade-up">
+        <div class="blog-img-wrap"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800" alt="Blog 1" /></div>
+        <div class="blog-meta">
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 04 February, 2026</span>
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Hyroo</span>
+        </div>
+        <h4 class="blog-title">The Indian Hiring Market Is Changing: Why Mid-Senior Talent Is More Selective Than Ever</h4>
+        <p class="blog-excerpt">For years, hiring in India favored employers due to high talent supply. That balance is now shifting...</p>
+        <a href="#" class="read-more">Read More <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+      </article>
+      <article class="blog-card fade-up" style="transition-delay:.1s">
+        <div class="blog-img-wrap"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800" alt="Blog 2" /></div>
+        <div class="blog-meta">
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 01 February, 2026</span>
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Hyroo Team</span>
+        </div>
+        <h4 class="blog-title">Hiring Leaders in India for Global and Multi-Market Roles</h4>
+        <p class="blog-excerpt">How to hire India-based leaders with the right experience to manage global and multi-market roles...</p>
+        <a href="#" class="read-more">Read More <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+      </article>
+      <article class="blog-card fade-up" style="transition-delay:.2s">
+        <div class="blog-img-wrap"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800" alt="Blog 3" /></div>
+        <div class="blog-meta">
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 01 February, 2026</span>
+          <span class="blog-meta-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Hyroo Team</span>
+        </div>
+        <h4 class="blog-title">Why CXO Hiring Is a Business Decision, Not an HR Task</h4>
+        <p class="blog-excerpt">Why CXO hiring should be treated as a strategic business decision rather than a routine HR process.</p>
+        <a href="#" class="read-more">Read More <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Hyroo<span>.</span></div>
+        <p class="footer-about">We help businesses simplify HR processes with smart, reliable, and easy-to-use technology designed to support growing teams.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="social-link" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch With Us</h4>
+        <ul class="contact-list">
+          <li class="contact-item">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Offices in Gurgaon and Delhi</span>
+          </li>
+          <li class="contact-item">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15.92z"/></svg>
+            <a href="tel:+919289888097">+91 9289888097</a>
+          </li>
+          <li class="contact-item">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:aakriti@uniconhr.com">aakriti@uniconhr.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <div class="quick-links">
+          <a href="#contact">Contact Us</a>
+          <a href="#about">About Us</a>
+          <a href="#blog">Blog</a>
+          <a href="#services">Services</a>
+          <a href="#">Careers</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hyroo. All rights reserved.</p>
+      <p>Developed By Swayam</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── HAMBURGER ── */
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOpen = document.getElementById('menuOpen');
+  const menuClose = document.getElementById('menuClose');
+
+  hamburgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    const isOpen = mobileMenu.classList.contains('open');
+    menuOpen.style.display = isOpen ? 'none' : 'block';
+    menuClose.style.display = isOpen ? 'block' : 'none';
+  });
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+    menuOpen.style.display = 'block';
+    menuClose.style.display = 'none';
+  }
+
+  /* ── LOGO CAROUSEL ── */
+  const clients = [
+    { name: "Sales Intel", logo: "https://uniconhr.com/uploads/clients/f06fc306ff1719196e80cb1ee2559c8c.jpg" },
+    { name: "Datahash", logo: "https://uniconhr.com/uploads/clients/03f576b1332e30006f6edfb5da4109f1.png" },
+    { name: "Stryker", logo: "https://uniconhr.com/uploads/clients/b94e3f440a8174290d2bf2ff815b56e6.png" },
+    { name: "Amazon", logo: "https://uniconhr.com/uploads/clients/39194eb905e00a8386ec5d3969eb6da3.svg" },
+    { name: "Lets Transport", logo: "https://uniconhr.com/uploads/clients/75a173acacfdae7384dca0ff346ebb78.svg" },
+    { name: "rStar Technologies", logo: "https://uniconhr.com/uploads/clients/0ecf3afca0cd6b63bc59d23f445ee364.png" },
+    { name: "ixigo", logo: "https://uniconhr.com/uploads/clients/c8775d759759669b39f798648d969ea4.png" },
+    { name: "OculusIT", logo: "https://uniconhr.com/uploads/clients/20d78de509214fd79deace23c81c8088.jpg" },
+    { name: "Kloud9", logo: "https://uniconhr.com/uploads/clients/cb336f2511d036890f688032044aab9c.png" },
+    { name: "Manhattan", logo: "https://uniconhr.com/uploads/clients/d6495df5e8ac8b141c69dfa26e590088.png" },
+    { name: "Square Feet", logo: "https://uniconhr.com/uploads/clients/fc4b68b01893227e1fdac953ae2a36ef.jpeg" },
+    { name: "TA Digital", logo: "https://uniconhr.com/uploads/clients/3493e808efedaeaabd56350322461d57.png" },
+    { name: "trantor", logo: "https://uniconhr.com/uploads/clients/99bb0608306b87669ad928edc7ce177a.png" },
+    { name: "Unicommerce", logo: "https://uniconhr.com/uploads/clients/82d2c0290dd114b8209022481b6c043a.png" },
+    { name: "Azimuth", logo: "https://uniconhr.com/uploads/clients/db0e431cb110116d5b1fb582a3d77581.png" }
+  ];
+  const track = document.getElementById('carouselTrack');
+  const all = [...clients, ...clients];
+  all.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'carousel-item';
+    const img = document.createElement('img');
+    img.src = c.logo;
+    img.alt = c.name;
+    img.referrerPolicy = 'no-referrer';
+    div.appendChild(img);
+    track.appendChild(div);
+  });
+
+  /* ── FAQ TOGGLE ── */
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-btn').forEach(b => b.classList.remove('active'));
+    // Open clicked if was closed
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('active');
+    }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
