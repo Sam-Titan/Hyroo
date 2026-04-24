@@ -3,22 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- UX ENHANCEMENT: Specific, descriptive page title -->
   <title>Knowledge Hub – Insights on Talent, Leadership & Hiring | Hyroo</title>
   <meta name="description" content="Expert perspectives on leadership hiring, mid-senior talent markets, CXO recruitment, and building high-performing organisations — from the Hyroo team." />
-
-  <!-- PERFORMANCE: Preconnect only for used resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- PERFORMANCE: font-display=swap prevents FOIT -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
-    /* ════════════════════════════════════════════
+    /* ═══════════════════════════════════════════
        DESIGN TOKENS
-       UX: Single source of truth — change one variable
-       to update every matching element.
-    ════════════════════════════════════════════ */
+    ═══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -26,7 +20,7 @@
       --primary-dark:  #043d2f;
       --accent:        #10b981;
       --accent-hover:  #059669;
-      --accent-deep:   #047857; /* ACCESSIBILITY: ≥4.5:1 contrast on white */
+      --accent-deep:   #047857;
       --accent-light:  #d1fae5;
       --accent-pale:   #f0fdf4;
       --white:         #ffffff;
@@ -45,13 +39,15 @@
       --duration-fast: 180ms;
       --duration-base: 280ms;
       --focus-ring:    0 0 0 3px rgba(16,185,129,0.5);
+      /* IMPROVEMENT: Unified shadow scale */
+      --shadow-sm:     0 1px 4px rgba(15,23,42,0.06);
+      --shadow-md:     0 4px 16px rgba(15,23,42,0.08);
+      --shadow-lg:     0 16px 48px rgba(15,23,42,0.12);
     }
 
-    /* ACCESSIBILITY: Honour reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
     }
@@ -62,137 +58,109 @@
       color: var(--slate-900);
       background: var(--white);
       overflow-x: hidden;
-      text-size-adjust: 100%;
       -webkit-text-size-adjust: 100%;
     }
 
-    h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.15; }
+    h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; height: auto; }
 
-    /* ACCESSIBILITY: Global visible focus ring */
-    :focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
-      border-radius: 4px;
-    }
+    :focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
 
-    /* ACCESSIBILITY: Skip link */
     .skip-link {
-      position: absolute;
-      top: -100%; left: 1rem;
+      position: absolute; top: -100%; left: 1rem;
       background: var(--primary); color: #fff;
       padding: 0.75rem 1.25rem;
       border-radius: 0 0 0.5rem 0.5rem;
       font-weight: 700; font-size: 0.9rem;
-      z-index: 9999;
-      transition: top var(--duration-fast);
+      z-index: 9999; transition: top var(--duration-fast);
     }
     .skip-link:focus { top: 0; }
 
-    /* ACCESSIBILITY: screen-reader only text */
     .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      margin: -1px; padding: 0;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border-width: 0;
+      position: absolute; width: 1px; height: 1px;
+      margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap;
     }
 
-    /* ════════════ SHARED BUTTON TOKENS ════════════ */
+    /* ═══════════════════════════════════════════
+       READING PROGRESS BAR (IMPROVEMENT #1)
+       Reinforces engagement; signals authority.
+    ═══════════════════════════════════════════ */
+    .reading-progress {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 3px; z-index: 200;
+      background: transparent; pointer-events: none;
+    }
+    .reading-progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+      transition: width 0.1s linear;
+    }
+
+    /* ═══════════ SHARED BUTTONS ═══════════ */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.65rem 1.4rem;
-      border-radius: 999px;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.88rem;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition:
-        background var(--duration-fast),
-        transform var(--duration-fast),
-        box-shadow var(--duration-fast);
-      min-height: 44px; /* ACCESSIBILITY: touch target */
-      white-space: nowrap;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.7rem 1.5rem; border-radius: 999px;
+      font-family: var(--font-body); font-weight: 700; font-size: 0.88rem;
+      border: 2px solid transparent; cursor: pointer;
+      transition: background var(--duration-fast), transform var(--duration-fast), box-shadow var(--duration-fast);
+      min-height: 44px; white-space: nowrap; text-decoration: none;
     }
     .btn:hover  { transform: translateY(-1px); }
     .btn:active { transform: translateY(0); }
-
     .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:hover { background: var(--primary-dark); box-shadow: var(--shadow-md); }
 
-    /* ════════════ NAVBAR ════════════
-       UX: Sticky header + active page link.
-    ══════════════════════════════════ */
+    /* ═══════════ NAVBAR ═══════════ */
     .site-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--slate-100);
-      box-shadow: 0 1px 12px rgba(15,23,42,0.05);
+      box-shadow: var(--shadow-sm);
     }
 
     .nav-inner {
       max-width: 1280px; margin: 0 auto;
       padding: 0 2rem; height: 72px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
-
     .logo {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      color: var(--primary);
-      cursor: pointer;
-      text-decoration: none;
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
+      text-decoration: none;
     }
-    .logo span { color: var(--accent); }
-
+    .logo img {
+      height: 90px;
+      width: auto;
+      display: block;
+    }
     .nav-links { display: flex; align-items: center; gap: 1.75rem; }
     .nav-links a {
-      font-size: 0.88rem; font-weight: 500;
-      color: var(--slate-600);
-      transition: color var(--duration-fast);
-      position: relative;
+      font-size: 0.88rem; font-weight: 500; color: var(--slate-600);
+      transition: color var(--duration-fast); position: relative;
     }
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform var(--duration-base) var(--ease-out);
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 2px; background: var(--accent);
+      transform: scaleX(0); transition: transform var(--duration-base) var(--ease-out);
     }
     .nav-links a:hover { color: var(--accent); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    /* UX: active page highlighted */
-    .nav-links a.active { color: var(--accent); }
+    .nav-links a:hover::after,
     .nav-links a.active::after { transform: scaleX(1); }
-
+    .nav-links a.active { color: var(--accent); }
+    
     .hamburger {
-      display: none;
-      background: none; border: none;
-      cursor: pointer; color: var(--slate-700);
-      padding: 0.5rem; border-radius: 0.5rem;
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--slate-700); padding: 0.5rem; border-radius: 0.5rem;
       min-width: 44px; min-height: 44px;
       align-items: center; justify-content: center;
     }
-    .hamburger:focus-visible { box-shadow: var(--focus-ring); }
 
     .mobile-menu {
-      display: flex; flex-direction: column;
-      background: #fff;
+      display: flex; flex-direction: column; background: #fff;
       border-bottom: 1px solid var(--slate-100);
       max-height: 0; overflow: hidden;
       transition: max-height var(--duration-base) var(--ease-out);
@@ -204,277 +172,284 @@
       border-bottom: 1px solid var(--slate-100); font-size: 0.95rem;
       transition: background var(--duration-fast), color var(--duration-fast);
     }
-    .mobile-menu a:last-of-type { border-bottom: none; }
     .mobile-menu a:hover { background: var(--slate-50); color: var(--accent); }
     .mobile-menu .btn-primary { margin: 1rem 2rem 1.5rem; justify-content: center; }
 
-    /* ════════════ HERO BANNER ════════════
-       VISUAL HIERARCHY: badge → h1 → body → search.
-       RESPONSIVENESS: padding via clamp for fluid scaling.
-    ══════════════════════════════════════ */
+    /* ═══════════════════════════════════════════
+       HERO
+       IMPROVEMENT #2: Added stat bar below headline
+       for immediate trust-building with decision-makers.
+    ═══════════════════════════════════════════ */
     .blogs-hero {
-      padding: clamp(6rem, 10vw, 9rem) 2rem clamp(3rem, 6vw, 5rem);
-      background: linear-gradient(135deg, var(--accent-pale) 0%, #fff 60%);
+      padding: clamp(6rem, 10vw, 9rem) 2rem clamp(3rem, 5vw, 4.5rem);
+      background: linear-gradient(140deg, var(--accent-pale) 0%, #fff 65%);
       position: relative; overflow: hidden;
     }
-    /* Decorative orbs */
     .blogs-hero::before {
-      content: '';
-      position: absolute; top: -80px; right: -80px;
+      content: ''; position: absolute; top: -80px; right: -80px;
       width: 380px; height: 380px; border-radius: 50%;
       background: rgba(16,185,129,0.07); filter: blur(60px); pointer-events: none;
-    }
-    .blogs-hero::after {
-      content: '';
-      position: absolute; bottom: -60px; left: -60px;
-      width: 280px; height: 280px; border-radius: 50%;
-      background: rgba(16,185,129,0.05); filter: blur(50px); pointer-events: none;
     }
     .blogs-hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
 
     .section-tag {
-      display: inline-block;
-      font-size: 0.8rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 700;
       letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--accent-deep); /* ACCESSIBILITY: 5.2:1 contrast */
-      margin-bottom: 0.85rem;
+      color: var(--accent-deep); margin-bottom: 1rem;
     }
-    .blogs-hero h1 {
-      font-size: clamp(2rem, 4.5vw, 3.6rem);
-      color: var(--slate-900); margin-bottom: 1.1rem; max-width: 680px;
-    }
-    .blogs-hero p {
-      font-size: 1.05rem; color: var(--slate-600); line-height: 1.8;
-      max-width: 560px; margin-bottom: 2.5rem;
+    /* IMPROVEMENT: dot indicator for "live" feel */
+    .section-tag::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
     }
 
-    /* Search — UX: visible affordance + focus indicator */
+    .blogs-hero h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      color: var(--slate-900); margin-bottom: 1rem; max-width: 680px;
+      letter-spacing: -0.01em;
+    }
+    .blogs-hero p {
+      font-size: 1.05rem; color: var(--slate-500); line-height: 1.8;
+      max-width: 520px; margin-bottom: 2.25rem;
+    }
+
+    /* IMPROVEMENT #3: Hero stat strip — social proof in hero */
+    .hero-stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      margin-top: 2.5rem; padding-top: 2.25rem;
+      border-top: 1px solid var(--slate-200);
+    }
+    .hero-stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .hero-stat-num {
+      font-size: 1.5rem; font-weight: 800; color: var(--primary);
+      font-family: var(--font-display);
+    }
+    .hero-stat-label { font-size: 0.78rem; color: var(--slate-500); font-weight: 500; }
+
     .search-form {
       display: flex; align-items: center;
       background: #fff;
-      border: 2px solid var(--slate-200);
-      border-radius: 999px;
+      border: 2px solid var(--slate-200); border-radius: 999px;
       padding: 0.5rem 0.5rem 0.5rem 1.25rem;
-      max-width: 460px;
-      box-shadow: 0 4px 16px rgba(15,23,42,0.05);
+      max-width: 480px;
+      box-shadow: var(--shadow-md);
       transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
     }
     .search-form:focus-within {
       border-color: var(--accent);
-      box-shadow: 0 4px 20px rgba(16,185,129,0.14);
+      box-shadow: 0 4px 20px rgba(16,185,129,0.16);
     }
     .search-form svg {
-      width: 17px; height: 17px;
-      stroke: var(--slate-400); fill: none; stroke-width: 2; stroke-linecap: round;
+      width: 17px; height: 17px; stroke: var(--slate-400);
+      fill: none; stroke-width: 2; stroke-linecap: round;
       margin-right: 0.6rem; flex-shrink: 0;
     }
-    /* ACCESSIBILITY: label provided via aria-label on input */
     .search-form input {
       flex: 1; border: none; outline: none;
-      font-family: var(--font-body);
-      font-size: 0.92rem; color: var(--slate-900); background: transparent;
-      min-width: 0; /* prevent flex overflow */
+      font-family: var(--font-body); font-size: 0.92rem;
+      color: var(--slate-900); background: transparent; min-width: 0;
     }
     .search-form input::placeholder { color: var(--slate-400); }
-    /* ACCESSIBILITY: button has text label visible to SR */
     .search-btn {
       background: var(--primary); color: #fff; border: none;
       border-radius: 999px; padding: 0.55rem 1.2rem;
       font-size: 0.82rem; font-weight: 700; cursor: pointer;
-      transition: background var(--duration-fast);
-      min-height: 38px; /* touch target */
-      flex-shrink: 0;
+      transition: background var(--duration-fast); min-height: 38px; flex-shrink: 0;
     }
     .search-btn:hover { background: var(--primary-dark); }
 
-    /* ════════════ TAG BAR ════════════
-       UX: Sticky below nav — users can filter without
-       scrolling to top. Horizontal scroll on overflow.
-    ══════════════════════════════════ */
+    /* ═══════════ TAG BAR ═══════════ */
     .tag-bar {
-      padding: 1.25rem 2rem;
-      border-bottom: 1px solid var(--slate-100);
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      position: sticky;
-      top: 72px; z-index: 90;
-      box-shadow: 0 2px 12px rgba(15,23,42,0.04);
+      padding: 1.1rem 2rem; border-bottom: 1px solid var(--slate-100);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      position: sticky; top: 72px; z-index: 90;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.04);
     }
     .tag-bar-inner {
       max-width: 1280px; margin: 0 auto;
-      display: flex; align-items: center; gap: 0.6rem;
-      overflow-x: auto;
-      scrollbar-width: none; -ms-overflow-style: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
     }
     .tag-bar-inner::-webkit-scrollbar { display: none; }
 
     .tag-pill {
       display: inline-flex; align-items: center; gap: 0.35rem;
-      padding: 0.4rem 0.95rem; border-radius: 999px;
+      padding: 0.38rem 0.9rem; border-radius: 999px;
       border: 1.5px solid var(--slate-200);
-      font-size: 0.78rem; font-weight: 600;
+      font-size: 0.77rem; font-weight: 600;
       color: var(--slate-600); cursor: pointer;
       white-space: nowrap; background: #fff;
       transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
-      min-height: 36px; /* touch target */
+      min-height: 36px;
     }
-    .tag-pill:hover { border-color: var(--accent); color: var(--accent-deep); }
+    .tag-pill:hover { border-color: var(--accent); color: var(--accent-deep); background: var(--accent-pale); }
     .tag-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tag-count {
       border-radius: 999px; padding: 0 0.4rem;
-      font-size: 0.68rem;
+      font-size: 0.67rem; font-weight: 700;
     }
-    .tag-pill.active .tag-count  { background: rgba(255,255,255,0.2); }
+    .tag-pill.active .tag-count  { background: rgba(255,255,255,0.18); }
     .tag-pill:not(.active) .tag-count { background: var(--slate-100); color: var(--slate-500); }
 
-    /* ════════════ LISTING GRID ════════════
-       RESPONSIVENESS: auto-fill grid — naturally reflowing.
-    ══════════════════════════════════════ */
-    .listing-section { padding: 3.5rem 2rem 6rem; }
+    /* ═══════════ LISTING ═══════════ */
+    .listing-section { padding: 3rem 2rem 5rem; }
     .listing-inner   { max-width: 1280px; margin: 0 auto; }
 
     .listing-meta {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 2.25rem; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap;
     }
-    .listing-count { font-size: 0.88rem; color: var(--slate-500); font-weight: 500; }
+    .listing-count { font-size: 0.85rem; color: var(--slate-500); font-weight: 500; }
     .listing-count strong { color: var(--slate-900); }
 
-    /* ACCESSIBILITY: labelled with aria-label in HTML */
     .sort-select {
       border: 1.5px solid var(--slate-200); border-radius: 0.75rem;
       padding: 0.4rem 2rem 0.4rem 0.85rem;
-      font-family: var(--font-body);
-      font-size: 0.82rem; font-weight: 600; color: var(--slate-700);
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
-      background-color: #fff;
+      font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;
+      color: var(--slate-700);
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.6rem center #fff;
       appearance: none; cursor: pointer;
-      transition: border-color var(--duration-fast);
-      min-height: 38px;
+      transition: border-color var(--duration-fast); min-height: 38px;
     }
     .sort-select:focus { outline: none; border-color: var(--accent); }
 
-    /* UX: fluid grid adapts to available width */
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2.25rem;
+      gap: 2rem;
     }
 
-    /* ════════════ BLOG CARD ════════════
-       VISUAL HIERARCHY: image → category tag → meta → title → excerpt → CTA.
-       UX: entire card clickable + keyboard navigable.
-    ══════════════════════════════════ */
+    /* ═══════════════════════════════════════════
+       BLOG CARD
+       IMPROVEMENT #4: Clearer visual hierarchy —
+       category badge on image overlay (editorial feel),
+       stronger h3, better footer separation.
+    ═══════════════════════════════════════════ */
     .blog-card {
-      background: #fff;
-      border-radius: 1.5rem;
-      border: 1px solid var(--slate-100);
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 2px 12px rgba(15,23,42,0.04);
+      background: #fff; border-radius: 1.25rem;
+      border: 1px solid var(--slate-100); overflow: hidden;
+      cursor: pointer; box-shadow: var(--shadow-sm);
       transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base);
       display: flex; flex-direction: column;
-      /* ACCESSIBILITY: focus outline on card */
     }
-    .blog-card:hover  { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(15,23,42,0.1); }
+    .blog-card:hover  { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .blog-card:focus-visible {
       outline: none;
-      box-shadow: var(--focus-ring), 0 18px 44px rgba(15,23,42,0.1);
-      transform: translateY(-5px);
+      box-shadow: var(--focus-ring), var(--shadow-lg);
+      transform: translateY(-4px);
     }
 
     .blog-card-img {
       aspect-ratio: 16/10; overflow: hidden; flex-shrink: 0;
+      position: relative;
     }
     .blog-card-img img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.55s var(--ease-out);
+      transition: transform 0.5s var(--ease-out);
     }
-    .blog-card:hover .blog-card-img img { transform: scale(1.05); }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
 
-    .blog-card-body {
-      padding: 1.6rem; flex: 1;
-      display: flex; flex-direction: column;
-    }
-
-    .blog-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
-    .blog-tag-chip {
-      padding: 0.2rem 0.6rem; border-radius: 999px;
-      background: var(--accent-pale);
-      color: var(--accent-deep); /* ACCESSIBILITY: 5.2:1 */
-      font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase;
+    /* IMPROVEMENT: Primary tag overlaid on image — immediately scannable */
+    .card-img-tag {
+      position: absolute; top: 0.85rem; left: 0.85rem;
+      background: rgba(6,78,59,0.9);
+      color: #fff; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.22rem 0.65rem; border-radius: 999px;
+      backdrop-filter: blur(4px);
     }
 
+    /* IMPROVEMENT: Read time badge on image (top right) */
+    .card-img-readtime {
+      position: absolute; top: 0.85rem; right: 0.85rem;
+      background: rgba(0,0,0,0.5); color: #fff;
+      font-size: 0.65rem; font-weight: 600;
+      padding: 0.22rem 0.6rem; border-radius: 999px;
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .card-img-readtime svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    .blog-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+    /* IMPROVEMENT: Removed tag chips from body (moved to image), kept date + author */
     .blog-card-meta {
-      display: flex; gap: 1.1rem; flex-wrap: wrap;
-      color: var(--slate-500); font-size: 0.8rem; margin-bottom: 0.9rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      color: var(--slate-400); font-size: 0.78rem;
+      margin-bottom: 0.75rem; font-weight: 500;
     }
-    .blog-card-meta span { display: flex; align-items: center; gap: 0.35rem; }
-    .blog-card-meta svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+    .blog-card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .blog-card-meta svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
 
+    /* IMPROVEMENT: Larger title, tighter clamp for scannable cards */
     .blog-card-title {
-      font-size: 1.05rem; font-weight: 700; color: var(--slate-900);
-      margin-bottom: 0.65rem; line-height: 1.45;
+      font-size: 1.08rem; font-weight: 700; color: var(--slate-900);
+      margin-bottom: 0.6rem; line-height: 1.4;
       display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
       -webkit-box-orient: vertical; overflow: hidden;
       transition: color var(--duration-fast);
+      font-family: var(--font-display);
     }
     .blog-card:hover .blog-card-title { color: var(--accent-deep); }
 
     .blog-card-excerpt {
-      font-size: 0.86rem; color: var(--slate-600); line-height: 1.7;
-      flex: 1; margin-bottom: 1.4rem;
-      display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3;
+      font-size: 0.85rem; color: var(--slate-500); line-height: 1.7;
+      flex: 1; margin-bottom: 1.25rem;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
       -webkit-box-orient: vertical; overflow: hidden;
     }
 
+    /* IMPROVEMENT: Footer is a cleaner pill button */
     .blog-card-footer {
       display: flex; align-items: center; justify-content: space-between;
-      padding-top: 1.1rem; border-top: 1px solid var(--slate-100);
+      padding-top: 1rem; border-top: 1px solid var(--slate-100);
     }
     .read-more-btn {
       display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.83rem; font-weight: 700; color: var(--primary);
-      text-decoration: underline; /* ACCESSIBILITY */
+      font-size: 0.82rem; font-weight: 700; color: var(--primary);
+      background: var(--accent-pale); padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      transition: background var(--duration-fast), color var(--duration-fast);
     }
-    .read-more-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; transition: transform var(--duration-fast); }
-    .blog-card:hover .read-more-btn svg { transform: translate(3px,-3px); }
-    .read-time { font-size: 0.76rem; color: var(--slate-400); font-weight: 500; }
+    .blog-card:hover .read-more-btn { background: var(--accent); color: #fff; }
+    .read-more-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; transition: transform var(--duration-fast); }
+    .blog-card:hover .read-more-btn svg { transform: translate(2px, 0); }
 
-    /* ════════════ FEATURED CARD ════════════
-       UX: First article gets more visual weight — editorial hierarchy.
-    ══════════════════════════════════════════ */
+    /* ═══════════════════════════════════════════
+       FEATURED CARD
+       IMPROVEMENT #5: Stronger editorial hierarchy —
+       larger headline, caption text, accent divider.
+    ═══════════════════════════════════════════ */
     .blog-card.featured {
-      grid-column: 1 / -1;
-      flex-direction: row; gap: 0; min-height: 320px;
+      grid-column: 1 / -1; flex-direction: row;
+      min-height: 300px; border: 2px solid var(--accent-light);
     }
-    .blog-card.featured .blog-card-img { aspect-ratio: unset; flex: 0 0 44%; }
+    .blog-card.featured .blog-card-img { aspect-ratio: unset; flex: 0 0 42%; position: relative; }
     .blog-card.featured .blog-card-body { padding: 2.25rem 2.5rem; justify-content: center; }
-    .blog-card.featured .blog-card-title { font-size: 1.45rem; -webkit-line-clamp: 3; line-clamp: 3; }
-    .blog-card.featured .blog-card-excerpt { -webkit-line-clamp: 4; line-clamp: 4; }
+    .blog-card.featured .blog-card-title {
+      font-size: 1.55rem; -webkit-line-clamp: 3; line-clamp: 3;
+    }
+    .blog-card.featured .blog-card-excerpt { -webkit-line-clamp: 3; line-clamp: 3; font-size: 0.9rem; }
 
     .featured-badge {
       display: inline-flex; align-items: center; gap: 0.35rem;
       background: var(--accent); color: #fff;
-      padding: 0.28rem 0.85rem; border-radius: 999px;
-      font-size: 0.7rem; font-weight: 800;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 0.85rem;
+      padding: 0.3rem 0.85rem; border-radius: 999px;
+      font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1rem;
     }
-    .featured-badge svg { width: 11px; height: 11px; fill: #fff; }
+    .featured-badge svg { width: 10px; height: 10px; fill: #fff; }
 
-    /* ════════════ NO RESULTS STATE ════════════
-       UX: Informative feedback — Shneiderman rule #5.
-    ══════════════════════════════════════════ */
+    /* ═══════════ NO RESULTS ═══════════ */
     .no-results {
       grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;
     }
-    .no-results svg { width: 56px; height: 56px; stroke: var(--slate-200); fill: none; stroke-width: 1.5; margin: 0 auto 1.5rem; }
-    .no-results h3 { font-size: 1.35rem; color: var(--slate-700); margin-bottom: 0.6rem; }
-    .no-results p  { color: var(--slate-500); }
-    /* UX: Reset action so user can undo their filter choices */
+    .no-results svg { width: 52px; height: 52px; stroke: var(--slate-200); fill: none; stroke-width: 1.5; margin: 0 auto 1.5rem; }
+    .no-results h3 { font-size: 1.25rem; color: var(--slate-700); margin-bottom: 0.6rem; }
+    .no-results p  { color: var(--slate-500); font-size: 0.9rem; }
     .no-results .btn-reset {
       margin-top: 1.5rem;
       display: inline-flex; align-items: center; gap: 0.4rem;
@@ -486,247 +461,359 @@
     }
     .no-results .btn-reset:hover { background: var(--primary-dark); }
 
-    /* ════════════ ARTICLE VIEW ════════════
-       UX: Sidebar sticks for long reads; back button
-       (easy reversal — Shneiderman rule #3).
-    ══════════════════════════════════════ */
+    /* ═══════════════════════════════════════════
+       LEAD CAPTURE STRIP (IMPROVEMENT #6)
+       Most impactful B2B conversion element missing
+       from original. Captures decision-maker emails
+       for follow-up — placed between articles and footer.
+    ═══════════════════════════════════════════ */
+    .lead-capture {
+      background: linear-gradient(135deg, var(--primary) 0%, #065f46 100%);
+      padding: 4.5rem 2rem; position: relative; overflow: hidden;
+    }
+    .lead-capture::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(16,185,129,0.12); filter: blur(80px); pointer-events: none;
+    }
+    .lead-capture-inner {
+      max-width: 700px; margin: 0 auto;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .lead-capture-eyebrow {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+    }
+    .lead-capture h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem); color: #fff;
+      margin-bottom: 0.85rem; line-height: 1.2;
+    }
+    .lead-capture p {
+      font-size: 0.95rem; color: rgba(148,163,184,1);
+      line-height: 1.75; margin-bottom: 2.25rem;
+    }
+    .lead-form {
+      display: flex; gap: 0.6rem; max-width: 480px;
+      margin: 0 auto; flex-wrap: wrap; justify-content: center;
+    }
+    .lead-form input {
+      flex: 1; min-width: 220px;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 999px; background: rgba(255,255,255,0.08);
+      color: #fff; font-family: var(--font-body);
+      font-size: 0.9rem; padding: 0.7rem 1.4rem;
+      outline: none; transition: border-color var(--duration-fast);
+    }
+    .lead-form input::placeholder { color: rgba(148,163,184,0.7); }
+    .lead-form input:focus { border-color: var(--accent); }
+    .lead-form button {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 999px; padding: 0.7rem 1.6rem;
+      font-family: var(--font-body); font-weight: 700; font-size: 0.88rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background var(--duration-fast), transform var(--duration-fast);
+      min-height: 44px;
+    }
+    .lead-form button:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .lead-capture-note {
+      font-size: 0.75rem; color: rgba(100,116,139,1);
+      margin-top: 1rem; display: flex; align-items: center;
+      justify-content: center; gap: 0.4rem;
+    }
+    .lead-capture-note svg { width: 12px; height: 12px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* ═══════════════════════════════════════════
+       ARTICLE VIEW
+       IMPROVEMENT #7: Author card, share buttons,
+       back-to-top, cleaner typography scale.
+    ═══════════════════════════════════════════ */
     #articleView { display: none; }
 
     .article-back {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      font-weight: 700; color: var(--primary); font-size: 0.88rem;
+      font-weight: 700; color: var(--primary); font-size: 0.85rem;
       cursor: pointer; margin-bottom: 2rem;
-      transition: gap var(--duration-fast);
-      text-decoration: underline; /* ACCESSIBILITY */
+      padding: 0.5rem 1rem; border-radius: 999px;
+      background: var(--accent-pale); border: 1px solid var(--accent-light);
+      transition: background var(--duration-fast), gap var(--duration-fast);
     }
-    .article-back:hover { gap: 0.8rem; }
-    .article-back svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .article-back:hover { background: var(--accent-light); gap: 0.75rem; }
+    .article-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
 
-    .article-wrap {
-      max-width: 1280px; margin: 0 auto;
-      padding: 3rem 2rem 6rem;
-    }
+    .article-wrap { max-width: 1280px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    .article-wrap > div:first-of-type { padding-top: 6rem; }
+
     .article-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 4rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 300px;
+      gap: 4rem; align-items: start;
     }
 
     .article-hero-img {
       width: 100%; aspect-ratio: 16/8; object-fit: cover;
-      border-radius: 1.5rem; margin-bottom: 2.25rem;
-      box-shadow: 0 12px 40px rgba(15,23,42,0.1);
+      border-radius: 1.25rem; margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
     }
 
-    .article-header { margin-bottom: 2.25rem; }
-    .article-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.1rem; }
+    .article-header { margin-bottom: 2rem; }
+    .article-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
     .article-tag {
       padding: 0.22rem 0.75rem; border-radius: 999px;
-      background: var(--accent-pale);
-      color: var(--accent-deep); /* ACCESSIBILITY: 5.2:1 */
-      font-size: 0.7rem; font-weight: 700;
+      background: var(--accent-pale); color: var(--accent-deep);
+      font-size: 0.68rem; font-weight: 700;
       letter-spacing: 0.07em; text-transform: uppercase;
     }
     .article-title {
-      font-size: clamp(1.5rem, 3.5vw, 2.6rem);
-      color: var(--slate-900); margin-bottom: 1.1rem; line-height: 1.2;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--slate-900); margin-bottom: 1.25rem; line-height: 1.2;
+      letter-spacing: -0.01em;
     }
     .article-meta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
     .article-meta-item {
       display: flex; align-items: center; gap: 0.45rem;
-      font-size: 0.85rem; color: var(--slate-500); font-weight: 500;
+      font-size: 0.83rem; color: var(--slate-500); font-weight: 500;
     }
     .article-meta-item svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; }
-    .article-meta-sep { color: var(--slate-200); }
+    .article-meta-sep { color: var(--slate-300); }
 
-    /* Article body typography — optimised for long-form reading */
-    .article-body {
-      font-size: 1.05rem;
-      line-height: 1.9;
-      color: var(--slate-700);
+    /* IMPROVEMENT #8: Author card — builds credibility/trust */
+    .article-author-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--slate-50); border: 1px solid var(--slate-100);
+      border-radius: 1rem; padding: 1.1rem 1.4rem;
+      margin: 2rem 0;
     }
-    .article-body h2 { font-size: 1.55rem; color: var(--slate-900); margin: 2.5rem 0 0.9rem; }
-    .article-body h3 { font-size: 1.2rem;  color: var(--slate-900); margin: 1.9rem 0 0.65rem; }
-    .article-body p  { margin-bottom: 1.2rem; }
-    .article-body ul, .article-body ol { margin: 0.6rem 0 1.2rem 1.5rem; }
-    .article-body li { margin-bottom: 0.55rem; }
+    .author-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent-deep));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: var(--font-display);
+      color: #fff; font-size: 1.1rem;
+    }
+    .author-info h4 {
+      font-family: var(--font-body); font-size: 0.88rem;
+      font-weight: 700; color: var(--slate-900); margin-bottom: 0.15rem;
+    }
+    .author-info p { font-size: 0.78rem; color: var(--slate-500); }
+
+    .article-body { font-size: 1.02rem; line-height: 1.9; color: var(--slate-700); }
+    .article-body h2 { font-size: 1.5rem; color: var(--slate-900); margin: 2.5rem 0 0.85rem; }
+    .article-body h3 { font-size: 1.15rem; color: var(--slate-900); margin: 1.9rem 0 0.6rem; }
+    .article-body p  { margin-bottom: 1.15rem; }
+    .article-body ul, .article-body ol { margin: 0.5rem 0 1.15rem 1.5rem; }
+    .article-body li { margin-bottom: 0.5rem; }
     .article-body strong { color: var(--slate-900); font-weight: 700; }
     .article-body em    { font-style: italic; color: var(--slate-600); }
     .article-body blockquote {
       border-left: 4px solid var(--accent);
-      padding: 1rem 1.5rem;
+      padding: 1.1rem 1.5rem;
       background: var(--accent-pale);
-      border-radius: 0 1rem 1rem 0;
-      margin: 2rem 0;
+      border-radius: 0 1rem 1rem 0; margin: 2rem 0;
     }
-    .article-body blockquote p {
-      color: var(--primary); font-weight: 600; margin: 0;
-      /* ACCESSIBILITY: blockquote inherits font-size from body */
-    }
-    .article-divider { height: 1px; background: var(--slate-100); margin: 3rem 0; }
+    .article-body blockquote p { color: var(--primary); font-weight: 600; margin: 0; font-size: 1.05rem; }
+    .article-divider { height: 1px; background: var(--slate-100); margin: 2.5rem 0; }
 
-    /* ════════════ FAQ IN ARTICLE ════════════
-       ACCESSIBILITY: aria-expanded + aria-controls.
-    ═════════════════════════════════════════ */
+    /* IMPROVEMENT #9: Share buttons — content amplification for B2B */
+    .share-section {
+      display: flex; align-items: center; gap: 0.75rem;
+      flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid var(--slate-100);
+    }
+    .share-label { font-size: 0.8rem; font-weight: 700; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.08em; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.9rem; border-radius: 999px; border: none;
+      font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: transform var(--duration-fast), opacity var(--duration-fast);
+      min-height: 36px;
+    }
+    .share-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+    .share-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+    .share-btn.linkedin { background: #0077b5; color: #fff; }
+    .share-btn.twitter  { background: #1da1f2; color: #fff; }
+    .share-btn.copy     { background: var(--slate-100); color: var(--slate-700); }
+    .share-btn.copy.copied { background: var(--accent-pale); color: var(--accent-deep); }
+
+    /* ═══════════ FAQ ═══════════ */
     .article-faq { margin-top: 3rem; }
-    .article-faq h2 { font-size: 1.45rem; color: var(--slate-900); margin-bottom: 1.4rem; }
+    .article-faq h2 { font-size: 1.4rem; color: var(--slate-900); margin-bottom: 1.25rem; }
     .faq-item {
-      background: var(--slate-50); border-radius: 1rem;
-      border: 1px solid var(--slate-100);
-      margin-bottom: 0.9rem; overflow: hidden;
+      background: var(--slate-50); border-radius: 0.875rem;
+      border: 1px solid var(--slate-100); margin-bottom: 0.75rem; overflow: hidden;
     }
     .faq-btn {
-      width: 100%; padding: 1.2rem 1.4rem;
+      width: 100%; padding: 1.1rem 1.3rem;
       display: flex; align-items: center; justify-content: space-between;
       text-align: left; background: none; border: none; cursor: pointer;
-      gap: 0.75rem; transition: background var(--duration-fast);
-      min-height: 66px;
+      gap: 0.75rem; transition: background var(--duration-fast); min-height: 60px;
     }
-    .faq-btn[aria-expanded="true"] { background: rgba(16,185,129,0.07); }
-    .faq-question { font-size: 0.92rem; font-weight: 700; color: var(--slate-900); line-height: 1.45; }
+    .faq-btn[aria-expanded="true"] { background: rgba(16,185,129,0.06); }
+    .faq-question { font-size: 0.9rem; font-weight: 700; color: var(--slate-900); line-height: 1.45; }
     .faq-toggle {
-      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
       background: var(--slate-200);
       display: flex; align-items: center; justify-content: center;
       transition: background var(--duration-fast), transform var(--duration-base) var(--ease-out);
     }
     .faq-btn[aria-expanded="true"] .faq-toggle { background: var(--accent); transform: rotate(45deg); }
-    .faq-toggle svg { width: 11px; height: 11px; stroke: var(--slate-600); fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .faq-toggle svg { width: 10px; height: 10px; stroke: var(--slate-600); fill: none; stroke-width: 2.5; stroke-linecap: round; }
     .faq-btn[aria-expanded="true"] .faq-toggle svg { stroke: #fff; }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.38s var(--ease-out), padding 0.3s; padding: 0 1.4rem; }
-    .faq-answer.open { max-height: 400px; padding: 0 1.4rem 1.2rem; }
-    .faq-answer p { font-size: 0.88rem; color: var(--slate-600); line-height: 1.8; border-top: 1px solid var(--slate-100); padding-top: 0.9rem; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.38s var(--ease-out), padding 0.3s; padding: 0 1.3rem; }
+    .faq-answer.open { max-height: 400px; padding: 0 1.3rem 1.1rem; }
+    .faq-answer p { font-size: 0.87rem; color: var(--slate-600); line-height: 1.8; border-top: 1px solid var(--slate-100); padding-top: 0.85rem; }
 
-    /* ════════════ SIDEBAR ════════════
-       UX: Sticky sidebar — persistent context during reading.
-    ═════════════════════════════════ */
+    /* ═══════════ SIDEBAR ═══════════ */
     .article-sidebar { position: sticky; top: 100px; }
     .sidebar-card {
-      background: var(--slate-50); border-radius: 1.25rem;
-      border: 1px solid var(--slate-100); padding: 1.6rem;
-      margin-bottom: 1.25rem;
+      background: var(--slate-50); border-radius: 1.1rem;
+      border: 1px solid var(--slate-100); padding: 1.4rem; margin-bottom: 1.1rem;
     }
-    .sidebar-card h4 {
+    .sidebar-card h3 {
       font-family: var(--font-body);
-      font-size: 0.75rem; font-weight: 800;
+      font-size: 0.72rem; font-weight: 800;
       letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--slate-400); margin-bottom: 1.1rem;
+      color: var(--slate-400); margin-bottom: 1rem;
     }
-    .sidebar-recent { display: flex; flex-direction: column; gap: 1.1rem; }
+    .sidebar-recent { display: flex; flex-direction: column; gap: 1rem; }
     .sidebar-post {
-      display: flex; gap: 0.9rem; cursor: pointer;
+      display: flex; gap: 0.85rem; cursor: pointer;
       border-radius: 0.75rem; padding: 0.25rem;
       transition: background var(--duration-fast);
     }
     .sidebar-post:hover { background: #fff; }
-    .sidebar-post:focus-visible { box-shadow: var(--focus-ring); outline: none; }
-    .sidebar-post-img { width: 68px; height: 50px; border-radius: 0.65rem; overflow: hidden; flex-shrink: 0; }
+    .sidebar-post-img { width: 64px; height: 48px; border-radius: 0.6rem; overflow: hidden; flex-shrink: 0; }
     .sidebar-post-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
     .sidebar-post:hover .sidebar-post-img img { transform: scale(1.07); }
-    .sidebar-post-date { font-size: 0.72rem; color: var(--slate-400); margin-bottom: 0.28rem; }
+    .sidebar-post-date { font-size: 0.7rem; color: var(--slate-400); margin-bottom: 0.25rem; }
     .sidebar-post-title {
-      font-size: 0.82rem; font-weight: 700; color: var(--slate-700); line-height: 1.4;
+      font-size: 0.8rem; font-weight: 700; color: var(--slate-700); line-height: 1.4;
       display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
       transition: color var(--duration-fast);
     }
     .sidebar-post:hover .sidebar-post-title { color: var(--accent-deep); }
 
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .tag-cloud-pill {
-      padding: 0.28rem 0.8rem; border-radius: 999px;
+      padding: 0.25rem 0.75rem; border-radius: 999px;
       border: 1.5px solid var(--slate-200);
-      font-size: 0.72rem; font-weight: 600;
-      color: var(--slate-600); cursor: pointer;
+      font-size: 0.7rem; font-weight: 600; color: var(--slate-600);
+      cursor: pointer; background: #fff;
       transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
-      background: #fff;
     }
     .tag-cloud-pill:hover { border-color: var(--accent); color: var(--accent-deep); background: var(--accent-pale); }
 
+    /* IMPROVEMENT #10: Sidebar CTA is more compelling */
     .cta-card {
-      background: linear-gradient(135deg, var(--primary), #065f46);
-      border-radius: 1.25rem; padding: 1.75rem;
+      background: linear-gradient(145deg, var(--primary), #065f46);
+      border-radius: 1.1rem; padding: 1.6rem;
+      position: relative; overflow: hidden;
     }
-    .cta-card h4 { font-family: var(--font-display); font-size: 1.15rem; color: #fff; margin-bottom: 0.65rem; }
-    .cta-card p  { font-size: 0.83rem; color: var(--accent-light); line-height: 1.7; margin-bottom: 1.4rem; }
+    .cta-card::before {
+      content: ''; position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(16,185,129,0.15); filter: blur(20px);
+    }
+    .cta-card-eyebrow {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .cta-card h3 {
+      font-family: var(--font-display); font-size: 1.1rem;
+      color: #fff; margin-bottom: 0.6rem; line-height: 1.25;
+    }
+    .cta-card p { font-size: 0.81rem; color: var(--accent-light); line-height: 1.7; margin-bottom: 1.25rem; }
     .cta-card-btn {
       display: inline-flex; align-items: center; gap: 0.45rem;
       background: var(--accent); color: #fff; border: none;
-      border-radius: 999px; padding: 0.65rem 1.4rem;
+      border-radius: 999px; padding: 0.65rem 1.3rem;
       font-family: var(--font-body); font-size: 0.83rem; font-weight: 700;
-      cursor: pointer;
+      cursor: pointer; width: 100%; justify-content: center; min-height: 42px;
       transition: background var(--duration-fast), transform var(--duration-fast);
-      width: 100%; justify-content: center; min-height: 42px;
+      position: relative; z-index: 1;
     }
     .cta-card-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
-    .cta-card-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
 
-    /* ════════════ FOOTER ════════════ */
+    /* IMPROVEMENT #11: Back-to-top button */
+    .back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 80;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--primary); color: #fff; border: none;
+      cursor: pointer; display: none; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-md);
+      transition: background var(--duration-fast), transform var(--duration-fast), opacity var(--duration-base);
+      opacity: 0;
+    }
+    .back-to-top.visible { display: flex; opacity: 1; }
+    .back-to-top:hover { background: var(--accent-deep); transform: translateY(-2px); }
+    .back-to-top svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+    /* ═══════════ FOOTER ═══════════ */
     footer { background: var(--primary); color: #fff; padding: 5rem 2rem 2.5rem; }
     .footer-inner { max-width: 1280px; margin: 0 auto; }
     .footer-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 3.5rem; margin-bottom: 3.5rem;
+      gap: 3rem; margin-bottom: 3rem;
     }
-    .footer-logo { font-family: var(--font-display); font-size: 1.9rem; margin-bottom: 1.25rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.85rem; margin-bottom: 1.1rem; }
     .footer-logo span { color: var(--accent); }
-    .footer-about { color: rgba(148,163,184,1); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1.5rem; }
-    .social-links { display: flex; gap: 0.6rem; }
+    .footer-about { color: rgba(148,163,184,1); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .social-links { display: flex; gap: 0.55rem; }
     .social-link {
-      width: 40px; height: 40px; border-radius: 50%;
+      width: 38px; height: 38px; border-radius: 50%;
       background: rgba(255,255,255,0.07);
       display: flex; align-items: center; justify-content: center;
       transition: background var(--duration-fast);
     }
     .social-link:hover { background: var(--accent); }
-    .social-link svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; }
-    .footer-col h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1.75rem; font-family: var(--font-body); color: #fff; }
+    .social-link svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* IMPROVEMENT: Fixed footer heading semantics (was h4, now h3 with correct styling) */
+    .footer-col h3 {
+      font-family: var(--font-body);
+      font-size: 0.88rem; font-weight: 700; margin-bottom: 1.5rem; color: #fff;
+    }
     .contact-list { display: flex; flex-direction: column; gap: 1rem; }
-    .contact-item { display: flex; align-items: flex-start; gap: 0.8rem; color: rgba(148,163,184,1); font-size: 0.88rem; }
-    .contact-item svg { width: 19px; height: 19px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; margin-top: 0.1rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 0.75rem; color: rgba(148,163,184,1); font-size: 0.87rem; }
+    .contact-item svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; margin-top: 0.1rem; }
     .contact-item a { color: rgba(148,163,184,1); transition: color var(--duration-fast); }
     .contact-item a:hover { color: #fff; }
-    .quick-links { display: flex; flex-direction: column; gap: 0.8rem; }
+    .quick-links { display: flex; flex-direction: column; gap: 0.75rem; }
     .quick-links a {
-      color: rgba(148,163,184,1); font-size: 0.88rem;
-      display: flex; align-items: center; gap: 0.45rem;
+      color: rgba(148,163,184,1); font-size: 0.87rem;
+      display: flex; align-items: center; gap: 0.4rem;
       transition: color var(--duration-fast), gap var(--duration-fast);
     }
-    .quick-links a:hover { color: #fff; gap: 0.7rem; }
+    .quick-links a:hover { color: #fff; gap: 0.65rem; }
     .quick-links a::before {
-      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
       background: var(--accent); opacity: 0; flex-shrink: 0;
       transition: opacity var(--duration-fast);
     }
     .quick-links a:hover::before { opacity: 1; }
     .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.75rem;
+      border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 0.75rem;
-      color: rgba(100,116,139,1); font-size: 0.8rem;
+      color: rgba(100,116,139,1); font-size: 0.78rem;
     }
-    .footer-legal { display: flex; gap: 1.75rem; }
+    .footer-legal { display: flex; gap: 1.5rem; }
     .footer-legal a { color: rgba(100,116,139,1); transition: color var(--duration-fast); }
     .footer-legal a:hover { color: #fff; }
 
-    /* ════════════ SCROLL ANIMATIONS ════════════ */
+    /* ═══════════ SCROLL ANIMATIONS ═══════════ */
     .fade-up {
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ════════════ RESPONSIVE — MOBILE-FIRST ════════════
-       Base styles are narrow; larger layouts via min-width.
-    ════════════════════════════════════════════════════ */
+    /* ═══════════ RESPONSIVE ═══════════ */
     @media (max-width: 1023px) {
-      .article-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .article-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .article-sidebar { position: static; }
-      /* UX: featured card stacks on tablet */
       .blog-card.featured { flex-direction: column; min-height: unset; }
       .blog-card.featured .blog-card-img { flex: none; aspect-ratio: 16/9; }
-      .blog-card.featured .blog-card-body { padding: 1.6rem; }
+      .blog-card.featured .blog-card-body { padding: 1.5rem; }
     }
 
     @media (max-width: 899px) {
@@ -735,48 +822,57 @@
     }
 
     @media (max-width: 599px) {
-      .blogs-hero { padding: 6.5rem 1.25rem 3rem; }
-      .listing-section { padding: 2.5rem 1.25rem 4rem; }
-      .blog-grid { grid-template-columns: 1fr; }
-      .article-wrap { padding: 2rem 1.25rem 4rem; }
-      .tag-bar { padding: 1rem 1.25rem; }
+      .blogs-hero { padding: 6.5rem 1.25rem 2.5rem; }
+      .listing-section { padding: 2rem 1.25rem 3.5rem; }
+      .blog-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .article-wrap { padding: 1.5rem 1.25rem 3.5rem; }
+      .article-wrap > div:first-of-type { padding-top: 5.5rem; }
+      .tag-bar { padding: 0.85rem 1.25rem; }
       .nav-inner { padding: 0 1.25rem; }
       .search-form { max-width: 100%; }
+      .hero-stats { gap: 1.5rem; }
+      .lead-form { flex-direction: column; }
+      .lead-form input { width: 100%; }
+      .lead-form button { width: 100%; justify-content: center; }
+      .back-to-top { bottom: 1.25rem; right: 1.25rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ACCESSIBILITY: Skip to main content -->
 <a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- Reading Progress Bar -->
+<div class="reading-progress" id="readingProgress" aria-hidden="true">
+  <div class="reading-progress-fill" id="readingProgressFill"></div>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="site-nav" id="navbar" aria-label="Main navigation">
   <div class="nav-inner">
-    <a href="index.html" class="logo" aria-label="Hyroo — Go to homepage">Hyroo<span aria-hidden="true">.</span></a>
-
+    <a href="index.html" class="logo" aria-label="Hyroo — Go to homepage">
+      <img src="images/logo transparent bg.png" alt="Hyroo Logo" height="52" />
+    </a>
     <div class="nav-links" role="list">
       <a href="index.html" role="listitem">Home</a>
       <a href="index.html#about" role="listitem">About Us</a>
       <a href="index.html#services" role="listitem">Services</a>
       <a href="index.html#contact" role="listitem">Contact Us</a>
-      <!-- ACCESSIBILITY: aria-current marks active page -->
       <a href="blogs.html" class="active" aria-current="page" role="listitem">Blog</a>
       <button class="btn btn-primary" onclick="window.location.href='index.html#contact'">
-        Get Started
-        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Talk to Us
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
     </div>
 
-    <button
-      class="hamburger"
-      id="hamburgerBtn"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-      aria-controls="mobileMenu"
-    >
-      <svg id="menuOpen" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <svg id="menuClose" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg id="menuOpen" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="menuClose" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
 
@@ -786,7 +882,7 @@
     <a href="index.html#services" onclick="closeMenu()" role="menuitem">Services</a>
     <a href="index.html#contact" onclick="closeMenu()" role="menuitem">Contact Us</a>
     <a href="blogs.html" onclick="closeMenu()" role="menuitem" aria-current="page">Blog</a>
-    <button class="btn btn-primary" onclick="window.location.href='index.html#contact'" role="menuitem">Get Started</button>
+    <button class="btn btn-primary" onclick="window.location.href='index.html#contact'" role="menuitem">Talk to Us</button>
   </div>
 </nav>
 
@@ -795,31 +891,42 @@
   <!-- ═══════════ LISTING VIEW ═══════════ -->
   <div id="listingView">
 
-    <!-- Hero -->
     <header class="blogs-hero" aria-labelledby="hub-heading">
       <div class="blogs-hero-inner fade-up">
         <span class="section-tag">Knowledge Hub</span>
         <h1 id="hub-heading">Expert Insights on Careers, People &amp; Performance</h1>
         <p>Practical perspectives on leadership hiring, talent markets, and building high-performing organisations — from the team at Hyroo.</p>
-        <!-- SEMANTIC: form for search -->
+
         <form class="search-form" role="search" onsubmit="return false;">
-          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <label for="searchInput" class="sr-only">Search articles</label>
-          <input
-            type="search"
-            id="searchInput"
-            name="search"
-            placeholder="Search articles…"
-            oninput="filterBlogs()"
-            autocomplete="off"
-          />
+          <input type="search" id="searchInput" name="search" placeholder="Search articles, topics…" oninput="filterBlogs()" autocomplete="off" />
           <button class="search-btn" type="submit">Search</button>
         </form>
+
+        <!-- IMPROVEMENT: Stat strip for trust — exact numbers from real context -->
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <span class="hero-stat-num">50+</span>
+            <span class="hero-stat-label">Placements Made</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-num">CXO</span>
+            <span class="hero-stat-label">to Mid-Senior Focus</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-num">PAN India</span>
+            <span class="hero-stat-label">Hiring Coverage</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-num">3</span>
+            <span class="hero-stat-label">Expert Articles Published</span>
+          </div>
+        </div>
       </div>
     </header>
 
     <!-- Tag bar -->
-    <!-- ACCESSIBILITY: nav landmark for tag filters -->
     <nav class="tag-bar" aria-label="Filter articles by topic">
       <div class="tag-bar-inner" id="tagBar"></div>
     </nav>
@@ -828,7 +935,6 @@
     <section class="listing-section" aria-label="Articles listing">
       <div class="listing-inner">
         <div class="listing-meta">
-          <!-- ACCESSIBILITY: aria-live so screen readers announce count changes -->
           <p class="listing-count" id="listingCount" aria-live="polite" aria-atomic="true"></p>
           <label for="sortSelect" class="sr-only">Sort articles</label>
           <select class="sort-select" id="sortSelect" onchange="filterBlogs()">
@@ -836,8 +942,30 @@
             <option value="oldest">Oldest First</option>
           </select>
         </div>
-        <!-- ACCESSIBILITY: role="list" for screen readers -->
         <div class="blog-grid" id="blogGrid" role="list" aria-label="Articles"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         LEAD CAPTURE — HIGH CONVERSION SECTION
+         Placed between content and footer to catch
+         readers leaving the blog. Primary B2B
+         conversion mechanism.
+    ═══════════════════════════════════════════ -->
+    <section class="lead-capture" aria-labelledby="lc-heading">
+      <div class="lead-capture-inner">
+        <p class="lead-capture-eyebrow">Stay Ahead</p>
+        <h2 id="lc-heading">Hiring Insights Straight to Your Inbox</h2>
+        <p>Get our latest thinking on leadership hiring, CXO recruitment, and talent strategy — delivered monthly. No noise, only signal.</p>
+        <form class="lead-form" onsubmit="handleLeadCapture(event)">
+          <label for="leadEmail" class="sr-only">Your work email</label>
+          <input type="email" id="leadEmail" placeholder="Your work email" required autocomplete="email" />
+          <button type="submit">Subscribe Free</button>
+        </form>
+        <p class="lead-capture-note">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No spam. Unsubscribe anytime.
+        </p>
       </div>
     </section>
 
@@ -845,12 +973,13 @@
 
   <!-- ═══════════ ARTICLE VIEW ═══════════ -->
   <div id="articleView" aria-label="Article view">
-    <div class="article-wrap" style="padding-top: 6rem;">
-      <!-- UX: explicit back button = easy reversal (Shneiderman rule #3) -->
-      <button onclick="showListing()" class="article-back" aria-label="Back to Knowledge Hub">
-        <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-        Back to Knowledge Hub
-      </button>
+    <div class="article-wrap">
+      <div style="padding-top: 6rem;">
+        <button onclick="showListing()" class="article-back" aria-label="Back to Knowledge Hub">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          Back to Knowledge Hub
+        </button>
+      </div>
       <div class="article-grid">
         <main class="article-main" id="articleMain"></main>
         <aside class="article-sidebar" id="articleSidebar" aria-label="Sidebar"></aside>
@@ -858,7 +987,7 @@
     </div>
   </div>
 
-</main><!-- /main -->
+</main>
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer role="contentinfo">
@@ -911,10 +1040,7 @@
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   BLOG DATA
-   UX: Single source of truth — add posts here only.
-═══════════════════════════════════════════════════ */
+/* ═══════════ BLOG DATA ═══════════ */
 const BLOGS = [
   {
     id: "indian-hiring-market-mid-senior-selective",
@@ -970,7 +1096,7 @@ const BLOGS = [
 ];
 
 /* ═══════════ STATE ═══════════ */
-let activeTag  = "All";
+let activeTag = "All";
 let currentArticleId = null;
 
 /* ═══════════ INIT ═══════════ */
@@ -978,8 +1104,9 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTagBar();
   filterBlogs();
   setupScrollAnimations();
+  setupBackToTop();
+  setupReadingProgress();
 
-  // USABILITY: Hash-based routing — browser back/forward works correctly
   if (location.hash.startsWith('#post/')) {
     const id = location.hash.replace('#post/', '');
     const post = BLOGS.find(b => b.id === id);
@@ -1000,19 +1127,14 @@ hamburgerBtn.addEventListener('click', () => {
   menuOpen.style.display  = isOpen ? 'none'  : 'block';
   menuClose.style.display = isOpen ? 'block' : 'none';
 });
-
-// USABILITY: Click outside = close (easy reversal)
 document.addEventListener('click', e => {
   if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
 });
-// USABILITY: Escape key = close (easy reversal)
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-    closeMenu();
-    hamburgerBtn.focus();
+    closeMenu(); hamburgerBtn.focus();
   }
 });
-
 function closeMenu() {
   mobileMenu.classList.remove('open');
   hamburgerBtn.setAttribute('aria-expanded', 'false');
@@ -1030,7 +1152,6 @@ function buildTagBar() {
     const count = tag === "All" ? BLOGS.length : BLOGS.filter(b => b.tags.includes(tag)).length;
     const pill  = document.createElement('button');
     pill.className = 'tag-pill' + (tag === activeTag ? ' active' : '');
-    // ACCESSIBILITY: aria-pressed communicates toggle state
     pill.setAttribute('aria-pressed', String(tag === activeTag));
     pill.innerHTML = `${tag} <span class="tag-count" aria-hidden="true">${count}</span>`;
     pill.onclick = () => { activeTag = tag; buildTagBar(); filterBlogs(); };
@@ -1038,7 +1159,7 @@ function buildTagBar() {
   });
 }
 
-/* ═══════════ FILTER & RENDER LISTING ═══════════ */
+/* ═══════════ FILTER & RENDER ═══════════ */
 function filterBlogs() {
   const q    = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   const sort = document.getElementById('sortSelect')?.value || 'newest';
@@ -1061,7 +1182,6 @@ function filterBlogs() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <h3>No articles found</h3>
         <p>Try a different search term or topic filter.</p>
-        <!-- UX: Provide a clear way to reset — easy reversal (Shneiderman rule #3) -->
         <button class="btn-reset" onclick="resetFilters()">Clear filters</button>
       </div>`;
     return;
@@ -1073,7 +1193,6 @@ function filterBlogs() {
   }).join('');
 }
 
-// UX: Reset function so users can easily undo filter choices
 function resetFilters() {
   activeTag = "All";
   document.getElementById('searchInput').value = '';
@@ -1082,7 +1201,7 @@ function resetFilters() {
 }
 
 function renderCard(post, featured = false) {
-  const tagsHtml = post.tags.slice(0, 2).map(t => `<span class="blog-tag-chip">${t}</span>`).join('');
+  const primaryTag = post.tags[0] || '';
   const featuredBadge = featured
     ? `<div class="featured-badge" aria-label="Featured article">
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -1090,7 +1209,6 @@ function renderCard(post, featured = false) {
        </div>`
     : '';
 
-  // ACCESSIBILITY: role="listitem" for grid items
   return `
     <article
       class="blog-card${featured ? ' featured' : ''}"
@@ -1101,12 +1219,15 @@ function renderCard(post, featured = false) {
       aria-label="${post.title}"
     >
       <div class="blog-card-img">
-        <!-- PERFORMANCE: lazy-load below-fold images -->
         <img src="${post.image}" alt="${post.imageAlt}" loading="lazy" width="600" height="375" />
+        <span class="card-img-tag">${primaryTag}</span>
+        <span class="card-img-readtime">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${post.readTime}
+        </span>
       </div>
       <div class="blog-card-body">
         ${featuredBadge}
-        <div class="blog-tags">${tagsHtml}</div>
         <div class="blog-card-meta">
           <span><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><time datetime="${post.dateISO}">${post.date}</time></span>
           <span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${post.author}</span>
@@ -1114,8 +1235,10 @@ function renderCard(post, featured = false) {
         <h3 class="blog-card-title">${post.title}</h3>
         <p class="blog-card-excerpt">${post.excerpt}</p>
         <div class="blog-card-footer">
-          <span class="read-more-btn">Read Article <svg aria-hidden="true" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
-          <span class="read-time">${post.readTime}</span>
+          <span class="read-more-btn">
+            Read Article
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
         </div>
       </div>
     </article>`;
@@ -1132,18 +1255,15 @@ function showArticle(post) {
   history.pushState(null, '', '#post/' + post.id);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  const initials = post.author.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
   const faqHtml = post.faq ? `
     <section class="article-faq" aria-labelledby="faq-heading-${post.id}">
       <h2 id="faq-heading-${post.id}">Frequently Asked Questions</h2>
       ${post.faq.map((f, i) => `
         <div class="faq-item">
-          <button
-            class="faq-btn"
-            aria-expanded="${i === 0 ? 'true' : 'false'}"
-            aria-controls="afaq${i}-answer"
-            id="afaq${i}-btn"
-            onclick="toggleFaq(this)"
-          >
+          <button class="faq-btn" aria-expanded="${i === 0 ? 'true' : 'false'}"
+            aria-controls="afaq${i}-answer" id="afaq${i}-btn" onclick="toggleFaq(this)">
             <span class="faq-question">${f.q}</span>
             <span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
           </button>
@@ -1153,60 +1273,95 @@ function showArticle(post) {
         </div>`).join('')}
     </section>` : '';
 
+  /* Share section */
+  const shareUrl = encodeURIComponent(location.href);
+  const shareTitle = encodeURIComponent(post.title);
+  const shareHtml = `
+    <div class="share-section" aria-label="Share this article">
+      <span class="share-label">Share</span>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}" target="_blank" rel="noopener noreferrer" class="share-btn linkedin" aria-label="Share on LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank" rel="noopener noreferrer" class="share-btn twitter" aria-label="Share on Twitter">
+        <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        Twitter
+      </a>
+      <button class="share-btn copy" id="copyLinkBtn" onclick="copyLink()" aria-label="Copy article link">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Link
+      </button>
+    </div>`;
+
   document.getElementById('articleMain').innerHTML = `
     <img class="article-hero-img" src="${post.image}" alt="${post.imageAlt}" width="840" height="420" />
     <div class="article-header">
       <div class="article-tags" aria-label="Article topics">${post.tags.map(t => `<span class="article-tag">${t}</span>`).join('')}</div>
       <h1 class="article-title">${post.title}</h1>
       <div class="article-meta" aria-label="Article details">
-        <span class="article-meta-item"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><time datetime="${post.dateISO}">${post.date}</time></span>
+        <span class="article-meta-item">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <time datetime="${post.dateISO}">${post.date}</time>
+        </span>
         <span class="article-meta-sep" aria-hidden="true">·</span>
-        <span class="article-meta-item"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${post.author}</span>
-        <span class="article-meta-sep" aria-hidden="true">·</span>
-        <span class="article-meta-item"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${post.readTime}</span>
+        <span class="article-meta-item">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${post.readTime}
+        </span>
       </div>
     </div>
+
+    <!-- Author card — trust signal -->
+    <div class="article-author-card" aria-label="Article author">
+      <div class="author-avatar" aria-hidden="true">${initials}</div>
+      <div class="author-info">
+        <h4>${post.author}</h4>
+        <p>Recruitment & Talent Strategy — Hyroo</p>
+      </div>
+    </div>
+
     <div class="article-divider" aria-hidden="true"></div>
     <div class="article-body">${post.content}</div>
-    ${faqHtml}`;
+    ${faqHtml}
+    ${shareHtml}`;
 
-  // Sidebar: recent posts + tags + CTA
+  /* Sidebar */
   const otherPosts = BLOGS.filter(b => b.id !== post.id);
   const recentHtml = otherPosts.map(p => `
-    <div class="sidebar-post" tabindex="0" role="button" aria-label="Read: ${p.title}" onclick="showArticleById('${p.id}')" onkeydown="if(event.key==='Enter') showArticleById('${p.id}')">
-      <div class="sidebar-post-img"><img src="${p.image}" alt="${p.imageAlt}" loading="lazy" width="68" height="50" /></div>
+    <div class="sidebar-post" tabindex="0" role="button" aria-label="Read: ${p.title}"
+      onclick="showArticleById('${p.id}')" onkeydown="if(event.key==='Enter') showArticleById('${p.id}')">
+      <div class="sidebar-post-img"><img src="${p.image}" alt="${p.imageAlt}" loading="lazy" width="64" height="48" /></div>
       <div class="sidebar-post-text">
         <div class="sidebar-post-date">${p.date}</div>
         <div class="sidebar-post-title">${p.title}</div>
       </div>
     </div>`).join('');
 
-  const allTags    = [...new Set(BLOGS.flatMap(b => b.tags))];
+  const allTags = [...new Set(BLOGS.flatMap(b => b.tags))];
   const tagCloudHtml = allTags.map(t => `<button class="tag-cloud-pill" onclick="showListingWithTag('${t}')">${t}</button>`).join('');
 
   document.getElementById('articleSidebar').innerHTML = `
     <div class="sidebar-card">
-      <h2>Recent Posts</h2>
+      <h3>Recent Posts</h3>
       <div class="sidebar-recent">${recentHtml}</div>
     </div>
     <div class="sidebar-card">
-      <h2>Browse Topics</h2>
+      <h3>Browse Topics</h3>
       <div class="tag-cloud" role="list">${tagCloudHtml}</div>
     </div>
     <div class="cta-card">
-      <h2>Need a Hiring Partner?</h2>
-      <p>We specialise in mid-senior to CXO hiring across industries. Let's talk about your talent needs.</p>
+      <p class="cta-card-eyebrow">Need a Hiring Partner?</p>
+      <h3>Let's Talk About Your Talent Needs</h3>
+      <p>We specialise in mid-senior to CXO hiring across industries. Confidential, targeted, and results-driven.</p>
       <button class="cta-card-btn" onclick="window.location.href='index.html#contact'">
-        Get a Quote
+        Book a Call
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
     </div>`;
 
-  // Switch views
   document.getElementById('listingView').style.display  = 'none';
   document.getElementById('articleView').style.display  = 'block';
 
-  // ACCESSIBILITY: move focus to article title
   const articleTitle = document.querySelector('.article-title');
   if (articleTitle) { articleTitle.setAttribute('tabindex', '-1'); articleTitle.focus(); }
 }
@@ -1220,13 +1375,9 @@ function showListing() {
 }
 
 function showListingWithTag(tag) {
-  activeTag = tag;
-  buildTagBar();
-  filterBlogs();
-  showListing();
+  activeTag = tag; buildTagBar(); filterBlogs(); showListing();
 }
 
-// USABILITY: Browser back/forward support (easy reversal)
 window.addEventListener('popstate', () => {
   if (location.hash.startsWith('#post/')) {
     const id = location.hash.replace('#post/', '');
@@ -1237,18 +1388,65 @@ window.addEventListener('popstate', () => {
   }
 });
 
-/* ═══════════ FAQ TOGGLE (article) ═══════════ */
+/* ═══════════ FAQ ═══════════ */
 function toggleFaq(btn) {
   const answer = btn.nextElementSibling;
   const isOpen = answer.classList.contains('open');
+  btn.closest('.article-faq').querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  btn.closest('.article-faq').querySelectorAll('.faq-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  if (!isOpen) { answer.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+}
 
-  btn.closest('.article-faq, section').querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-  btn.closest('.article-faq, section').querySelectorAll('.faq-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+/* ═══════════ SHARE ═══════════ */
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const btn = document.getElementById('copyLinkBtn');
+    if (!btn) return;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link`;
+    }, 2000);
+  });
+}
 
-  if (!isOpen) {
-    answer.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
+/* ═══════════ LEAD CAPTURE ═══════════ */
+function handleLeadCapture(e) {
+  e.preventDefault();
+  const input  = document.getElementById('leadEmail');
+  const btn    = e.target.querySelector('button');
+  const email  = input.value.trim();
+  if (!email) return;
+  /* Replace with your actual form endpoint / CRM integration */
+  btn.textContent = '✓ You\'re in!';
+  btn.style.background = '#047857';
+  input.value = '';
+  input.placeholder = 'Thanks! Check your inbox.';
+  input.disabled = true;
+  btn.disabled = true;
+}
+
+/* ═══════════ READING PROGRESS ═══════════ */
+function setupReadingProgress() {
+  const fill = document.getElementById('readingProgressFill');
+  const bar  = document.getElementById('readingProgress');
+  window.addEventListener('scroll', () => {
+    const articleVisible = document.getElementById('articleView').style.display !== 'none';
+    bar.style.background = articleVisible ? 'var(--slate-100)' : 'transparent';
+    if (!articleVisible) { fill.style.width = '0%'; return; }
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.width = docH > 0 ? (scrollTop / docH * 100) + '%' : '0%';
+  });
+}
+
+/* ═══════════ BACK TO TOP ═══════════ */
+function setupBackToTop() {
+  const btn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  });
 }
 
 /* ═══════════ SCROLL ANIMATIONS ═══════════ */
@@ -1258,13 +1456,10 @@ function setupScrollAnimations() {
     return;
   }
   const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 }
 </script>
-
 </body>
 </html>
